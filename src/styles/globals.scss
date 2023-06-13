@@ -1,0 +1,88 @@
+
+html,
+body{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "DM Sans";
+}
+
+// @font-face {
+//   font-family: "Open Sans";
+//   src: url("./fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+//     url("./fonts/OpenSans-Regular-webfont.woff") format("woff");
+//   font-weight: bold;
+//   font-display: swap;
+// }
+// * {
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   font-family: "Open Sans";
+//   font-weight: 400;
+// }
+
+.icon { 
+cursor: pointer;
+}
+
+:root {
+  --primary: #233F35;
+  --secondary: #CF9F3B;
+  --success: rgb(37, 155, 37);
+  --warning: #f5a524;
+  --error: rgb(255, 67, 67);
+  --black: #222222;
+  --white: #fff;
+  --shadedwhite: #e9e9e9;
+  --gray: #454545;
+  --lightgrey: #f7f7f4;
+  --darkgrey: #dbdbdb;
+}
+
+
+.upperText{
+  text-transform: uppercase;
+}
+.test{
+  position: relative !important;
+  object-fit: cover !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  overflow: hidden;
+}
+
+.cack-img{
+  position: absolute;
+  object-fit: cover;
+}
+
+.img{
+ object-fit: contain !important; 
+}
+
+.loginContainer{
+  display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 200 auto;
+	height: 100vh;
+
+  .loginCard{
+    display: flex;
+    max-width: 400px;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loginLink{
+    margin-left: 10px;
+    color: #2cc9d5; 
+  }
+  .submit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
