@@ -8,8 +8,8 @@ export const lighTheme = createTheme({
     secondary:{
       main: '#CF9F3B',
     },  
-    background: {
-      default: '#E8E2E2'
+    info:{
+      main: '#ffffff'
     }
   },
   typography: {
@@ -42,6 +42,22 @@ export const lighTheme = createTheme({
           },
         },
       }
+    },
+    MuiInputBase:{
+      styleOverrides:{
+        input:{
+          color: '#fff',
+        }
+      }
+    },
+
+    MuiButton:{
+      styleOverrides:{
+        root:{
+          textTransform:'none'
+        }
+      }
     }
+    
   }
 })

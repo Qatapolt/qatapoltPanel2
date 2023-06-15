@@ -22,9 +22,15 @@ const Login = () => {
 				<TextField
 					name="password"
 					placeholder="Password"
-					sx={{ color: "#fff" }}
 					InputProps={{
-						endAdornment: <InputAdornment position="end">Hide</InputAdornment>,
+						endAdornment: (
+							<InputAdornment
+								position="end"
+								className={styles.passwordHideShow}
+							>
+								<Typography color={"#fff"}>Hide</Typography>
+							</InputAdornment>
+						),
 					}}
 				/>
 				<InputLabel className={styles.passwordGuid}>

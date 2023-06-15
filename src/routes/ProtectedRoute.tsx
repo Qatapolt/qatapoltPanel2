@@ -1,8 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { TUser } from "../types";
 
 interface TProtectRoute {
-	isAuthenticated: TUser;
+	isAuthenticated: boolean;
 }
 const ProtectedRoute = ({ isAuthenticated }: TProtectRoute) => {
 	if (!isAuthenticated) {
