@@ -5,6 +5,7 @@ body{
   margin: 0;
   box-sizing: border-box;
   font-family: "DM Sans";
+  // background: #BBB1B1;
 }
 
 // @font-face {
@@ -39,7 +40,9 @@ cursor: pointer;
   --darkgrey: #dbdbdb;
 }
 
-
+.pointer{
+  cursor: pointer;
+}
 .upperText{
   text-transform: uppercase;
 }
@@ -85,4 +88,92 @@ cursor: pointer;
     justify-content: center;
     align-items: center;
   }
+}
+
+.circularTitle{
+  font-size: 14px !important;
+  line-height: 21px !important;
+  color: var(--primary) !important;
+  margin-top: 6px !important;
+}
+
+.flexCenter{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-left: 8px !important;
+}
+
+.flexStart{
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+}
+
+.flexTrofies{
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
+
+
+.title{
+  font-weight: 500 !important;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--primary);
+}
+.subTitle{
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.01em;
+  color: var(--primary);
+}
+
+.reportTitle{
+  font-size: 10px !important;
+  line-height: 15px !important;
+  letter-spacing: 0.01em !important;
+  margin-bottom: 4px !important;
+}
+
+.common{
+  margin-top: 13px !important;
+}
+
+.reportOn{
+  margin-bottom: 4px !important;
+}
+
+.active-tab{
+  color: var(--secondary) !important;
+}
+
+.addNewsBtn{
+  padding: 10px;
+  text-align: center;
+  overflow: hidden !important;
+}
+
+.newsDialog{
+  .title{
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 14px;
+    text-transform: capitalize;
+    color: #272629;
+  }
+  overflow: hidden !important;
+  .MuiInputBase-root{
+    border-radius: 8px !important;
+  }
+.MuiDialog-paper{
+  border-radius: 24px;
+}
+.MuiPaper-root{
+  border-radius: 24px !important;
+  max-width: 375px !important;
+  overflow: hidden !important;
+}
 }

@@ -11,6 +11,7 @@ import { appLogo, sLogout, userIcon } from "../assets/icons/indext";
 import styles from "../styles/components/layout.module.scss";
 import { sidebarMenu } from "../mock";
 import { Avatar, Typography } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 const drawerWidth = 240;
 
 const SidebarFooter = () => {
@@ -34,6 +35,31 @@ const SidebarFooter = () => {
 	);
 };
 export default function Sidebar() {
+	const navigate = useNavigate();
+	const location = useLocation();
+	const [activeTab, setActiveTab] = React.useState("");
+
+	React.useEffect(() => {
+		highlightActiveTab();
+	}, [location.pathname]);
+
+	const highlightActiveTab = () => {
+		let pathname = location.pathname.split("/");
+		let activeTab = pathname[1];
+
+		if (activeTab === "") {
+			setActiveTab("dashboard");
+		} else {
+			setActiveTab(activeTab);
+		}
+	};
+
+	const handleTab = (e: React.MouseEvent<HTMLElement>, menu: string) => {
+		e.preventDefault();
+		navigate(`/${menu}`);
+	};
+
+	console.log("active tab", activeTab);
 	return (
 		<Drawer
 			sx={{
@@ -54,16 +80,29 @@ export default function Sidebar() {
 				<img src={appLogo} alt="img" />
 			</Toolbar>
 			<List sx={{ flex: 2, lineHeight: 2 }}>
-				{sidebarMenu.map(({ name, icon, pathName }, index) => (
-					<ListItem key={name} disablePadding>
-						<ListItemButton>
-							<ListItemIcon sx={{ minWidth: "40px" }}>
-								<img src={icon} alt="icon" />
-							</ListItemIcon>
-							<ListItemText primary={name} />
-						</ListItemButton>
-					</ListItem>
-				))}
+				{sidebarMenu.map(({ name, icon, key }, index) => {
+					let [textColor, iconColor] = ["sidebar-tab-text", "white_icon"];
+					[textColor, iconColor] =
+						activeTab === key?.toLowerCase()
+							? ["active-tab", "active_icon"]
+							: ["sidebar-tab-text", "white_icon"];
+
+					return (
+						<ListItem
+							key={key}
+							disablePadding
+							onClick={(e) => handleTab(e, key)}
+							className={textColor}
+						>
+							<ListItemButton>
+								<ListItemIcon sx={{ minWidth: "40px" }}>
+									<img src={icon} alt="icon" />
+								</ListItemIcon>
+								<ListItemText primary={name} />
+							</ListItemButton>
+						</ListItem>
+					);
+				})}
 			</List>
 			<Divider />
 			<Toolbar sx={{ flex: 0.3 }}>
