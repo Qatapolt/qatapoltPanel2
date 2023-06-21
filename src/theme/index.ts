@@ -31,34 +31,9 @@ export const lighTheme = createTheme({
 			styleOverrides: {
 				root: {
 					borderRadius: "8px",
-
-					// border: '1px solid rgba(255, 255, 255, 0.1)',
-					// color: '#fff',
-					// '& .MuiOutlinedInput-root': {
-					//   '& fieldset': {
-					//     borderColor: '#fff',
-					//   },
-					//   '&:hover fieldset': {
-					//     borderColor: '#fff',
-					//   },
-					//   '&.Mui-focused fieldset': {
-					//     borderColor: '#fff',
-					//   },
-					// },
 				},
 			},
 		},
-		// MuiInputBase: {
-		// 	styleOverrides: {
-		// 		root: {
-		// 			borderRadius: "8px",
-		// 		},
-		// 		// input: {
-		// 		// 	color: "#fff",
-		// 		// },
-		// 	},
-		// },
-
 		MuiButton: {
 			defaultProps: {
 				variant: "contained",

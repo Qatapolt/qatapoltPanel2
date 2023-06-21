@@ -102,10 +102,10 @@ function App() {
 						</Layout>
 					}
 				/>
+				<Route path="login" element={<Login />} />
+				<Route path="send-email" element={<SendEmail />} />
+				<Route path="reset-password" element={<ResetPassword />} />
 			</Routes>
-			{/* <Login /> */}
-			{/* <SendEmail /> */}
-			{/* <ResetPassword /> */}
 		</>
 	);
 }

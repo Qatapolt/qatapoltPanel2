@@ -12,6 +12,7 @@ interface TLineSlider {
 interface TCircularProgress {
 	percentage: number;
 	title?: string;
+	color: string;
 }
 const LineSlider = ({ total, name, percentage, color }: TLineSlider) => {
 	return (
@@ -25,22 +26,22 @@ const LineSlider = ({ total, name, percentage, color }: TLineSlider) => {
 					{`${percentage}%`}
 				</Typography>
 			</div>
-			<Slider defaultValue={Number(percentage)} color="secondary" />
+			<Slider defaultValue={Number(percentage)} sx={{ color }} />
 		</div>
 	);
 };
 
-const CircularSlider = ({ percentage, title }: TCircularProgress) => {
+const CircularSlider = ({ percentage, title, color }: TCircularProgress) => {
 	return (
 		<div className="flexCenter">
 			<CircularProgressbar
 				value={percentage}
 				text={`${percentage}%`}
-				styles={{
-					root: {
-						width: "66px",
-					},
-				}}
+				styles={buildStyles({
+					pathColor: color,
+					textColor: "#323943",
+				})}
+				className="circle"
 			/>
 			<Typography className={"circularTitle"}>{title || "under 18"}</Typography>
 		</div>

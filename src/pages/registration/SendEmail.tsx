@@ -1,7 +1,7 @@
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import styles from "../../styles/components/auth.module.scss";
 import { mockSendEmail } from "../../mock";
-import { AuthHeader } from "./Login";
+import { AuthHeader, CustomInput } from "./Login";
 
 const SendEmail = () => {
 	return (
@@ -11,12 +11,13 @@ const SendEmail = () => {
 					title={mockSendEmail?.title}
 					description={mockSendEmail?.description}
 				/>
-				<TextField name="Enter Email" placeholder="Enter Email" />
+				<CustomInput name="Enter Email" placeholder="Enter Email" />
 				<Button
 					fullWidth
 					color="secondary"
 					variant="contained"
-					className={styles.actionBtn}
+					className={`${styles.actionBtn} `}
+					sx={{ marginTop: "22px" }}
 				>
 					Reset Password
 				</Button>

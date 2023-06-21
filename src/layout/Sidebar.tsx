@@ -59,7 +59,6 @@ export default function Sidebar() {
 		navigate(`/${menu}`);
 	};
 
-	console.log("active tab", activeTab);
 	return (
 		<Drawer
 			sx={{
@@ -80,7 +79,7 @@ export default function Sidebar() {
 				<img src={appLogo} alt="img" />
 			</Toolbar>
 			<List sx={{ flex: 2, lineHeight: 2 }}>
-				{sidebarMenu.map(({ name, icon, key }, index) => {
+				{sidebarMenu.map(({ name, icon, key, aIcon }, index) => {
 					let [textColor, iconColor] = ["sidebar-tab-text", "white_icon"];
 					[textColor, iconColor] =
 						activeTab === key?.toLowerCase()
@@ -94,9 +93,15 @@ export default function Sidebar() {
 							onClick={(e) => handleTab(e, key)}
 							className={textColor}
 						>
+							{activeTab === key?.toLowerCase() && (
+								<span className="activeBorder"></span>
+							)}
 							<ListItemButton>
-								<ListItemIcon sx={{ minWidth: "40px" }}>
-									<img src={icon} alt="icon" />
+								<ListItemIcon sx={{ minWidth: "30px" }}>
+									<img
+										src={activeTab === key?.toLowerCase() ? aIcon : icon}
+										alt="icon"
+									/>
 								</ListItemIcon>
 								<ListItemText primary={name} />
 							</ListItemButton>
@@ -104,7 +109,7 @@ export default function Sidebar() {
 					);
 				})}
 			</List>
-			<Divider />
+			<Divider sx={{ borderColor: "white" }} />
 			<Toolbar sx={{ flex: 0.3 }}>
 				<SidebarFooter />
 			</Toolbar>

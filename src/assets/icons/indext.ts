@@ -20,6 +20,16 @@ import deleteIcon from "./deleteIcon.svg";
 import closeIcon from "./closeIcon.svg";
 import newsImage from "./newsImg.svg";
 
+// active dashboard icons
+import activeDashboard from "./sidebar/aDashboard.svg";
+import activeBlockAcc from "./sidebar/aBlockAcc.svg";
+import activeDeleteAcc from "./sidebar/aDeletedAcc.svg";
+import activeEnquiries from "./sidebar/aEnquiries.svg";
+import activeQataNews from "./sidebar/aQataNews.svg";
+import activeReportedUser from "./sidebar/aReportedUser.svg";
+import activeTrophies from "./sidebar/aTrophies.svg";
+import activeTrophyReq from "./sidebar/aTrophyReq.svg";
+
 //new action button
 import newsEditBtn from "./editBtn.svg";
 import newsTrashBtn from "./trashBtn.svg";
@@ -29,7 +39,7 @@ import newsTrashBtn from "./trashBtn.svg";
 import toogleIconOff from "./toogleOff.svg";
 import toogleIconOn from "./toogleOn.svg";
 import imgFrame from "./imgFrame.svg";
-
+import IdCard from "./idcard.svg";
 export {
 	appLogo,
 	sDashboard,
@@ -56,4 +66,13 @@ export {
 	toogleIconOff,
 	toogleIconOn,
 	imgFrame,
+	activeDashboard,
+	activeBlockAcc,
+	activeDeleteAcc,
+	activeEnquiries,
+	activeQataNews,
+	activeReportedUser,
+	activeTrophies,
+	activeTrophyReq,
+	IdCard,
 };

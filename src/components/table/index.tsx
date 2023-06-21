@@ -3,14 +3,15 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Card } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import { useTable } from "react-table";
 
 interface TReactTable {
 	data: any;
 	columns: any;
+	title?: string;
 }
-const ReactTable = ({ data, columns }: TReactTable) => {
+const ReactTable = ({ data, columns, title }: TReactTable) => {
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
 		useTable({
 			columns,
@@ -19,6 +20,7 @@ const ReactTable = ({ data, columns }: TReactTable) => {
 
 	return (
 		<Card>
+			<Typography className="totalVisitors">{title}</Typography>
 			<Table {...getTableProps()}>
 				<TableHead>
 					{headerGroups.map((headerGroup: any) => (

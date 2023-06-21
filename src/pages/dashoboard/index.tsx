@@ -8,6 +8,39 @@ import {
 import { CircularSlider, LineSlider } from "../../components/slider";
 import ReactTable from "../../components/table";
 import styles from "../../styles/components/dashboard.module.scss";
+import { TitleWithIcon } from "../trophyRequest";
+import { footballIcon, menuIcon } from "../../assets/icons/indext";
+import { dataTrophyReq } from "../../mock/tablesMock";
+import { LineSliderHeader } from "../../components/header/inext";
+const columnsDashboard = [
+	{
+		Header: "Name",
+		accessor: "name",
+		Cell: (props: any) => {
+			return <TitleWithIcon title={props.value} />;
+		},
+	},
+	{
+		Header: "Email",
+		accessor: "email",
+	},
+	{
+		Header: "Type",
+		accessor: "sport",
+		Cell: (props: any) => {
+			return <TitleWithIcon title={props.value} icon={footballIcon} />;
+		},
+	},
+
+	{
+		Header: () => {
+			return null;
+		},
+		id: "menu",
+		Cell: () => <img src={menuIcon} alt="del-icon" className="pointer" />,
+	},
+];
+
 const Dashboard = () => {
 	return (
 		<>
@@ -32,24 +65,44 @@ const Dashboard = () => {
 				</Grid>
 				<Grid item xs={12} md={4}>
 					<Card>
-						{lineSliderMock.map(({ total, name, percentage, color }) => (
-							<LineSlider
-								total={total}
-								name={name}
-								percentage={percentage}
-								key={total}
-							/>
-						))}
+						<LineSliderHeader title="Users Breakdown" />
+						{lineSliderMock
+							.slice(0, 3)
+							.map(({ total, name, percentage, color }) => (
+								<LineSlider
+									total={total}
+									name={name}
+									percentage={percentage}
+									key={total}
+									color={color}
+								/>
+							))}
 					</Card>
 				</Grid>
 			</Grid>
 
 			<Grid container marginTop={2} spacing={3}>
-				{/* <Grid item xs={12} md={8}>
-					<Card>
-						<ReactTable />
-					</Card>
-				</Grid> */}
+				<Grid item xs={12} md={8}>
+					{/* <MainMap
+							googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyA6AYxz5ok7Wkt3SOsquumACIECcH933ws`}
+							loadingElement={<div style={{ height: `100%` }} />}
+							containerElement={<div style={{ height: `100%` }} />}
+							mapElement={
+								<div
+									style={{
+										height: `100%`,
+										borderRadius: "12px",
+									}}
+								/>
+							}
+						></MainMap> */}
+
+					<ReactTable
+						data={dataTrophyReq.slice(0, 3)}
+						columns={columnsDashboard}
+						title="Total Visitors"
+					/>
+				</Grid>
 				<Grid item xs={12} md={4}>
 					<Card>
 						<div className={styles.dashboardFlex}>
@@ -58,6 +111,7 @@ const Dashboard = () => {
 									percentage={percentage}
 									title={title}
 									key={title}
+									color={color}
 								/>
 							))}
 						</div>
@@ -70,6 +124,7 @@ const Dashboard = () => {
 									name={name}
 									percentage={percentage}
 									key={total}
+									color={color}
 								/>
 							))}
 					</Card>

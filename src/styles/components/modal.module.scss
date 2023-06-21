@@ -1,0 +1,27 @@
+
+  .userProfile {
+    display: flex;
+    justify-content: center;
+    align-items: center !important;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  .verifyTitle{
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.01em;
+    color: #323943;
+  }
+  .verifyDesc{
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.01em;
+    color: #323943;
+  }
+
+  .verifyMedia{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }

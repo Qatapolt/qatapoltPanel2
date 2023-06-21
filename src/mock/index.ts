@@ -10,6 +10,14 @@ import {
 	sReportedUser,
 	sTrophies,
 	sTrophyReq,
+	activeDashboard,
+	activeTrophies,
+	activeBlockAcc,
+	activeDeleteAcc,
+	activeEnquiries,
+	activeQataNews,
+	activeReportedUser,
+	activeTrophyReq,
 } from "../assets/icons/indext";
 
 export const mockLogin = {
@@ -32,41 +40,49 @@ export const sidebarMenu = [
 		key: "dashboard",
 		name: "Dashboard",
 		icon: sDashboard,
+		aIcon: activeDashboard,
 	},
 	{
 		key: "trophy-req",
 		name: "Trophy Requests",
 		icon: sTrophyReq,
+		aIcon: activeTrophyReq,
 	},
 	{
 		key: "trophies",
 		name: "Trophies",
 		icon: sTrophies,
+		aIcon: activeTrophies,
 	},
 	{
 		key: "block-account",
 		name: "Block Accounts",
 		icon: sBlockAcc,
+		aIcon: activeBlockAcc,
 	},
 	{
 		key: "delete-account",
 		name: "Delete Accounts",
 		icon: sDeleteAcc,
+		aIcon: activeDeleteAcc,
 	},
 	{
 		key: "qatapolt-news",
 		name: "Qatapolt News",
 		icon: sQataNews,
+		aIcon: activeQataNews,
 	},
 	{
 		key: "enquiries",
 		name: "Enquiries",
 		icon: sEnquiries,
+		aIcon: activeEnquiries,
 	},
 	{
 		key: "reported-user",
 		name: "Reported Users",
 		icon: sReportedUser,
+		aIcon: activeReportedUser,
 	},
 ];
 
@@ -93,25 +109,25 @@ export const lineSliderMock = [
 		total: "125k",
 		name: "Total Downloads",
 		percentage: 50,
-		color: "primary",
+		color: "#2ACD4E",
 	},
 	{
 		total: "1.6m",
 		name: "Visitors from Usa",
 		percentage: 80,
-		color: "secondary",
+		color: "#7B61FF",
 	},
 	{
 		total: "365k",
 		name: "Visitors from Australia",
 		percentage: 40,
-		color: "primary",
+		color: "#FFC961",
 	},
 	{
 		total: "2.5b",
 		name: "Visitors from India",
 		percentage: 90,
-		color: "primary",
+		color: "#233F35",
 	},
 ];
 
@@ -119,22 +135,22 @@ export const circularSliderMock = [
 	{
 		title: "Unber 18",
 		percentage: 50,
-		color: "primary",
+		color: "#2ACD4E",
 	},
 	{
 		title: "Unber 30",
 		percentage: 80,
-		color: "secondary",
+		color: "#7B61FF",
 	},
 	{
 		title: "Unber 50",
 		percentage: 40,
-		color: "primary",
+		color: "#FFC961",
 	},
 	{
 		title: "Unber 60",
 		percentage: 90,
-		color: "primary",
+		color: "#233F35",
 	},
 ];
 

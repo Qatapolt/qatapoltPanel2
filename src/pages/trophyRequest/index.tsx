@@ -3,6 +3,8 @@ import { PageHeader } from "../../components/header/inext";
 import ReactTable from "../../components/table";
 import { dataTrophyReq } from "../../mock/tablesMock";
 import { footballIcon, userIcon } from "../../assets/icons/indext";
+import { useState } from "react";
+import VerifyModal from "../../components/modals/VerifyModal";
 
 interface TTitleWithIcon {
 	icon?: string;
@@ -27,47 +29,66 @@ export const TitleWithIcon = ({ icon, title }: TTitleWithIcon) => {
 		</Box>
 	);
 };
-const columnsTrophyReq = [
-	{
-		Header: "Name",
-		accessor: "name",
-		Cell: (props: any) => {
-			return <TitleWithIcon title={props.value} />;
-		},
-	},
-	{
-		Header: "Username",
-		accessor: "username",
-	},
-	{
-		Header: "Email",
-		accessor: "email",
-	},
-	{
-		Header: "Sport",
-		accessor: "sport",
-		Cell: (props: any) => {
-			return <TitleWithIcon title={props.value} icon={footballIcon} />;
-		},
-	},
-	{
-		Header: "Phone Number",
-		accessor: "phone",
-	},
-	{
-		Header: () => {
-			return null;
-		},
-		id: "custom",
-		accessor: "sport",
-		Cell: () => <Button variant="contained">Very Account</Button>,
-	},
-];
+
 const TrophyRequests = () => {
+	const [openVerify, setOpenVerify] = useState(false);
+
+	const handleVerify = () => {
+		setOpenVerify(!openVerify);
+	};
+
+	const columnsTrophyReq = [
+		{
+			Header: "Name",
+			accessor: "name",
+			Cell: (props: any) => {
+				return <TitleWithIcon title={props.value} />;
+			},
+		},
+		{
+			Header: "Username",
+			accessor: "username",
+		},
+		{
+			Header: "Email",
+			accessor: "email",
+		},
+		{
+			Header: "Sport",
+			accessor: "sport",
+			Cell: (props: any) => {
+				return <TitleWithIcon title={props.value} icon={footballIcon} />;
+			},
+		},
+		{
+			Header: "Phone Number",
+			accessor: "phone",
+		},
+		{
+			Header: () => {
+				return null;
+			},
+			id: "custom",
+			accessor: "sport",
+			Cell: () => (
+				<Button variant="contained" onClick={handleVerify}>
+					Very Account
+				</Button>
+			),
+		},
+	];
+
 	return (
 		<div>
 			<PageHeader title={"Trophy Requests"} />
 			<ReactTable data={dataTrophyReq} columns={columnsTrophyReq} />
+
+			{openVerify && (
+				<VerifyModal
+					open={openVerify}
+					handleClose={() => setOpenVerify(false)}
+				/>
+			)}
 		</div>
 	);
 };

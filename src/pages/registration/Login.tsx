@@ -9,6 +9,26 @@ import styles from "../../styles/components/auth.module.scss";
 import { appLogo } from "../../assets/icons/indext";
 import { TAuthHeader } from "../../types";
 import { mockLogin } from "../../mock";
+import styled from "@emotion/styled";
+
+export const CustomInput = styled(TextField)({
+	"& .MuiOutlinedInput-root": {
+		"& fieldset": {
+			borderColor: "#fff",
+		},
+		"&:hover fieldset": {
+			borderColor: "#fff",
+		},
+		"&.Mui-focused fieldset": {
+			borderColor: "#fff",
+		},
+	},
+
+	input: {
+		color: "#fff",
+		borderRadius: "8px",
+	},
+});
 
 const Login = () => {
 	return (
@@ -18,8 +38,8 @@ const Login = () => {
 					title={mockLogin?.title}
 					description={mockLogin?.description}
 				/>
-				<TextField name="email" placeholder="Enter Email" />
-				<TextField
+				<CustomInput name="email" placeholder="Enter Email" />
+				<CustomInput
 					name="password"
 					placeholder="Password"
 					InputProps={{
