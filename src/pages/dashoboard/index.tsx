@@ -12,6 +12,7 @@ import { TitleWithIcon } from "../trophyRequest";
 import { footballIcon, menuIcon } from "../../assets/icons/indext";
 import { dataTrophyReq } from "../../mock/tablesMock";
 import { LineSliderHeader } from "../../components/header/inext";
+import Map from "../../components/map/Map";
 const columnsDashboard = [
 	{
 		Header: "Name",
@@ -61,6 +62,7 @@ const Dashboard = () => {
 				<Grid item xs={12} md={8}>
 					<Card>
 						<Typography>Map View</Typography>
+						<Map />
 					</Card>
 				</Grid>
 				<Grid item xs={12} md={4}>

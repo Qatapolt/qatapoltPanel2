@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.15",
+    "@react-google-maps/api": "^2.18.1",
     "@tanstack/react-table": "^8.9.2",
     "@types/react-table": "^7.7.14",
     "@types/uuid": "^9.0.1",
