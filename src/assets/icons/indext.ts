@@ -40,6 +40,10 @@ import toogleIconOff from "./toogleOff.svg";
 import toogleIconOn from "./toogleOn.svg";
 import imgFrame from "./imgFrame.svg";
 import IdCard from "./idcard.svg";
+import crossIcon from "./crossIcon.svg";
+import plusIcon from "./plusIcon.svg";
+import switchCupIcon from "./cup.svg";
+import lineIcon from "./line.svg";
 export {
 	appLogo,
 	sDashboard,
@@ -75,4 +79,8 @@ export {
 	activeTrophies,
 	activeTrophyReq,
 	IdCard,
+	crossIcon,
+	plusIcon,
+	switchCupIcon,
+	lineIcon,
 };

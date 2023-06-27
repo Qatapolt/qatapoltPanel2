@@ -206,3 +206,19 @@ cursor: pointer;
 .MuiSvgIcon-root{
 color: #fff !important;
 }
+
+.pointer {
+  cursor: pointer;
+}
+
+.pagination{
+  display: flex;
+  justify-content: right;
+  align-items: baseline;
+  margin-top: 20px;
+}
+
+.img-selected{
+  border: 4px solid var(--secondary);
+  border-radius: 20px;
+}

@@ -38,7 +38,7 @@ const columnsBlockAccount = [
 			return null;
 		},
 		id: "custom",
-		Cell: () => <img src={closeIcon} alt="del-icon" />,
+		Cell: () => <img src={closeIcon} alt="del-icon" className="pointer" />,
 	},
 ];
 const BlockedAccount = () => {

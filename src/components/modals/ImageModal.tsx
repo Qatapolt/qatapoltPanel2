@@ -76,24 +76,11 @@ function Title(props: DialogTitleProps) {
 interface TAddNewsModal {
 	open: boolean;
 	handleClose: () => void;
-	handleImgModal: () => void;
 }
 
-export default function VerifyModal({
-	open,
-	handleClose,
-	handleImgModal,
-}: TAddNewsModal) {
+export default function ImageModal({ open, handleClose }: TAddNewsModal) {
 	const [isProfile, setIsProfile] = React.useState(false);
 
-	const handleUserProfile = () => {
-		setIsProfile(!isProfile);
-	};
-
-	const handleImg = () => {
-		handleImgModal();
-		handleClose();
-	};
 	return (
 		<BootstrapDialog
 			onClose={handleClose}
@@ -102,42 +89,19 @@ export default function VerifyModal({
 			sx={{ borderRadius: "24px" }}
 			className="newsDialog"
 		>
-			<Title id="customized-dialog-title" onClose={handleClose}></Title>
+			<Title id="customized-dialog-title" onClose={handleClose}>
+				Documents
+			</Title>
 
 			<DialogContent>
-				<div className={styles.userProfile}>
-					<img src={userIcon} alt="verify-icon" width={67} height={67} />
-					<Typography>Alex jordan</Typography>
-					<Typography>example@gmail.com</Typography>
-				</div>
 				<Box>
-					<VerfiyTitle title="Username" desc="Alexjordan" />
-					<VerfiyTitle title="Supporting" desc="Football" />
-					<VerfiyTitle title="Phone number" desc="+44 123 456 798" />
+					<img src={IdCard} alt="id1" width={"100%"} height={"280px"} />
 				</Box>
-
-				<Box sx={{ mb: 1 }}>
-					<Typography className={styles.verifyTitle}>Descriptions</Typography>
-					<Typography className={styles.verifyDesc}>
-						Lorem ipsum dolor sit amet consectetur. Pulvinar pharetra faucibus
-						auctor risus. Ipsum id eget dolor urna at aenean ligula.
-					</Typography>
-				</Box>
-
 				<Box className={styles.verifyMedia}>
-					<img src={IdCard} alt="id1" onClick={handleImg} className="pointer" />
-					<img src={IdCard} alt="id2" onClick={handleImg} className="pointer" />
+					<img src={IdCard} alt="id1" className="img-selected" />
+					<img src={IdCard} alt="id2" />
 				</Box>
 			</DialogContent>
-
-			<div className="addNewsBtn">
-				<Button onClick={handleClose} fullWidth>
-					Verify Account
-				</Button>
-				<Button onClick={handleClose} fullWidth variant="text">
-					Delete Request
-				</Button>
-			</div>
 		</BootstrapDialog>
 	);
 }

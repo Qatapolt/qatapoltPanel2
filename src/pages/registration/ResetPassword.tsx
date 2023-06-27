@@ -2,8 +2,14 @@ import { Button, TextField } from "@mui/material";
 import styles from "../../styles/components/auth.module.scss";
 import { mockResetPassword } from "../../mock";
 import { AuthHeader, CustomInput } from "./Login";
+import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
+	const navigate = useNavigate();
+	const handleReset = () => {
+		console.log("clicked");
+		navigate({ pathname: "/" });
+	};
 	return (
 		<div className={styles.loginContainer}>
 			<div className={styles.loginCard}>
@@ -19,6 +25,7 @@ const ResetPassword = () => {
 					variant="contained"
 					className={styles.actionBtn}
 					sx={{ marginTop: "22px" }}
+					onClick={handleReset}
 				>
 					Reset Password
 				</Button>

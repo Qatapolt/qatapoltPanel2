@@ -10,6 +10,7 @@ import { appLogo } from "../../assets/icons/indext";
 import { TAuthHeader } from "../../types";
 import { mockLogin } from "../../mock";
 import styled from "@emotion/styled";
+import { Link, useNavigate } from "react-router-dom";
 
 export const CustomInput = styled(TextField)({
 	"& .MuiOutlinedInput-root": {
@@ -31,6 +32,10 @@ export const CustomInput = styled(TextField)({
 });
 
 const Login = () => {
+	const navigate = useNavigate();
+	const handleLogin = () => {
+		navigate({ pathname: "/" });
+	};
 	return (
 		<div className={styles.loginContainer}>
 			<div className={styles.loginCard}>
@@ -61,12 +66,15 @@ const Login = () => {
 					color="secondary"
 					variant="contained"
 					className={styles.actionBtn}
+					onClick={handleLogin}
 				>
 					Login
 				</Button>
-				<InputLabel className={styles.forgotPassword}>
-					Forgotten Password?
-				</InputLabel>
+				<Link to="/send-email">
+					<InputLabel className={styles.forgotPassword}>
+						Forgotten Password?
+					</InputLabel>
+				</Link>
 			</div>
 		</div>
 	);

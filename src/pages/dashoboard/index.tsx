@@ -45,7 +45,7 @@ const columnsDashboard = [
 const Dashboard = () => {
 	return (
 		<>
-			<Grid container spacing={3}>
+			<Grid container spacing={2}>
 				{analyticCardMock.map(({ title, subTitle, icon }) => {
 					return (
 						<AnalyticalCard
@@ -58,7 +58,7 @@ const Dashboard = () => {
 				})}
 			</Grid>
 
-			<Grid container spacing={3} marginTop={2}>
+			<Grid container spacing={2} marginTop={2}>
 				<Grid item xs={12} md={8}>
 					<Card>
 						<Typography>Map View</Typography>
@@ -83,26 +83,13 @@ const Dashboard = () => {
 				</Grid>
 			</Grid>
 
-			<Grid container marginTop={2} spacing={3}>
+			<Grid container marginTop={2} spacing={2}>
 				<Grid item xs={12} md={8}>
-					{/* <MainMap
-							googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyA6AYxz5ok7Wkt3SOsquumACIECcH933ws`}
-							loadingElement={<div style={{ height: `100%` }} />}
-							containerElement={<div style={{ height: `100%` }} />}
-							mapElement={
-								<div
-									style={{
-										height: `100%`,
-										borderRadius: "12px",
-									}}
-								/>
-							}
-						></MainMap> */}
-
 					<ReactTable
 						data={dataTrophyReq.slice(0, 3)}
 						columns={columnsDashboard}
 						title="Total Visitors"
+						name="visitors"
 					/>
 				</Grid>
 				<Grid item xs={12} md={4}>

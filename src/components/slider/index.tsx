@@ -26,7 +26,10 @@ const LineSlider = ({ total, name, percentage, color }: TLineSlider) => {
 					{`${percentage}%`}
 				</Typography>
 			</div>
-			<Slider defaultValue={Number(percentage)} sx={{ color }} />
+			<Slider
+				defaultValue={Number(percentage)}
+				sx={{ color, pointerEvents: "none" }}
+			/>
 		</div>
 	);
 };

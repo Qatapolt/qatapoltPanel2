@@ -37,7 +37,7 @@ const columnsDeletedAccount = [
 			return null;
 		},
 		id: "custom",
-		Cell: () => <img src={deleteIcon} alt="del-icon" />,
+		Cell: () => <img src={deleteIcon} alt="del-icon" className="pointer" />,
 	},
 ];
 const DeletedAccount = () => {

@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, InputLabel, TextField } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { imgFrame } from "../../assets/icons/indext";
+import { crossIcon, imgFrame, plusIcon } from "../../assets/icons/indext";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
@@ -39,10 +39,10 @@ function Title(props: DialogTitleProps) {
 						position: "absolute",
 						right: 8,
 						top: 8,
-						color: (theme) => theme.palette.grey[500],
+						color: (theme) => theme.palette.primary.main,
 					}}
 				>
-					<CloseIcon />
+					<img src={crossIcon} alt="cross" />
 				</IconButton>
 			) : null}
 		</DialogTitle>
@@ -99,7 +99,7 @@ export default function AddNewsModal({ open, handleClose }: TAddNewsModal) {
 							alignItems: "center",
 						}}
 					>
-						<Add color="secondary" />
+						<img src={plusIcon} alt="plus" />
 						<Button
 							color="secondary"
 							variant="text"

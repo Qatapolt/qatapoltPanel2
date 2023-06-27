@@ -10,15 +10,24 @@ import DeletedAccount from "./pages/deletedAccount";
 import News from "./pages/news";
 import ReportedUser from "./pages/reportedUser";
 import Enquiries from "./pages/enquiries";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
 const NotFound = () => {
 	return <div>Page Not Found</div>;
 };
 function App() {
+	const navigate = useNavigate();
+	const location = useLocation();
+	console.log("router", location);
+	if (location.pathname === "/dashboard") {
+		navigate({ pathname: "/login" });
+	}
 	return (
 		<>
 			<Routes>
+				<Route path="login" element={<Login />} />
+				<Route path="send-email" element={<SendEmail />} />
+				<Route path="reset-password" element={<ResetPassword />} />
 				<Route
 					path="/"
 					element={
@@ -102,9 +111,6 @@ function App() {
 						</Layout>
 					}
 				/>
-				<Route path="login" element={<Login />} />
-				<Route path="send-email" element={<SendEmail />} />
-				<Route path="reset-password" element={<ResetPassword />} />
 			</Routes>
 		</>
 	);

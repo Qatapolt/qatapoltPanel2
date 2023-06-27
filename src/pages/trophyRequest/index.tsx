@@ -3,8 +3,9 @@ import { PageHeader } from "../../components/header/inext";
 import ReactTable from "../../components/table";
 import { dataTrophyReq } from "../../mock/tablesMock";
 import { footballIcon, userIcon } from "../../assets/icons/indext";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import VerifyModal from "../../components/modals/VerifyModal";
+import ImageModal from "../../components/modals/ImageModal";
 
 interface TTitleWithIcon {
 	icon?: string;
@@ -32,10 +33,14 @@ export const TitleWithIcon = ({ icon, title }: TTitleWithIcon) => {
 
 const TrophyRequests = () => {
 	const [openVerify, setOpenVerify] = useState(false);
-
+	const [imageModal, setImageModal] = useState(false);
 	const handleVerify = () => {
 		setOpenVerify(!openVerify);
 	};
+
+	const handleImgModal = useCallback(() => {
+		setImageModal(true);
+	}, []);
 
 	const columnsTrophyReq = [
 		{
@@ -87,6 +92,14 @@ const TrophyRequests = () => {
 				<VerifyModal
 					open={openVerify}
 					handleClose={() => setOpenVerify(false)}
+					handleImgModal={handleImgModal}
+				/>
+			)}
+
+			{imageModal && (
+				<ImageModal
+					open={imageModal}
+					handleClose={() => setImageModal(false)}
 				/>
 			)}
 		</div>

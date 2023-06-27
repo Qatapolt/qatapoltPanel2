@@ -7,10 +7,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { appLogo, sLogout, userIcon } from "../assets/icons/indext";
+import { appLogo, lineIcon, sLogout, userIcon } from "../assets/icons/indext";
 import styles from "../styles/components/layout.module.scss";
 import { sidebarMenu } from "../mock";
-import { Avatar, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 const drawerWidth = 240;
 
@@ -76,8 +76,11 @@ export default function Sidebar() {
 			anchor="left"
 		>
 			<Toolbar className={styles.sidebarLogo}>
-				<img src={appLogo} alt="img" />
+				<img src={appLogo} alt="img" className="pointer" />
 			</Toolbar>
+			<div style={{ textAlign: "center" }}>
+				<img src={lineIcon} alt={"line"} />
+			</div>
 			<List sx={{ flex: 2, lineHeight: 2 }}>
 				{sidebarMenu.map(({ name, icon, key, aIcon }, index) => {
 					let [textColor, iconColor] = ["sidebar-tab-text", "white_icon"];
@@ -92,6 +95,7 @@ export default function Sidebar() {
 							disablePadding
 							onClick={(e) => handleTab(e, key)}
 							className={textColor}
+							sx={{ pl: 1 }}
 						>
 							{activeTab === key?.toLowerCase() && (
 								<span className="activeBorder"></span>
@@ -109,7 +113,9 @@ export default function Sidebar() {
 					);
 				})}
 			</List>
-			<Divider sx={{ borderColor: "white" }} />
+			<div style={{ textAlign: "center" }}>
+				<img src={lineIcon} alt={"line"} />
+			</div>
 			<Toolbar sx={{ flex: 0.3 }}>
 				<SidebarFooter />
 			</Toolbar>
