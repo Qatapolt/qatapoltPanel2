@@ -13,6 +13,10 @@ import { footballIcon, menuIcon } from "../../assets/icons/indext";
 import { dataTrophyReq } from "../../mock/tablesMock";
 import { LineSliderHeader } from "../../components/header/inext";
 import Map from "../../components/map/Map";
+import { useEffect } from "react";
+import {db,collection,getDocs} from "../../database/firebaseConfig"
+
+
 const columnsDashboard = [
 	{
 		Header: "Name",
@@ -42,7 +46,18 @@ const columnsDashboard = [
 	},
 ];
 
+
 const Dashboard = () => {
+	async function getUsers(db:any) {
+		const usersCol = collection(db, 'users');
+		const usersSnapshot = await getDocs(usersCol);
+		const usersList = usersSnapshot.docs.map(doc => doc.data());
+		console.log('users',usersList)
+	}
+	
+	useEffect(() => {
+	  getUsers(db)
+	}, [])
 	return (
 		<>
 			<Grid container spacing={2}>
