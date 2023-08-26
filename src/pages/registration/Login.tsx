@@ -11,6 +11,11 @@ import { TAuthHeader } from "../../types";
 import { mockLogin } from "../../mock";
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import {  signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../database/firebaseConfig";
+
+
 
 export const CustomInput = styled(TextField)({
 	"& .MuiOutlinedInput-root": {
@@ -33,8 +38,28 @@ export const CustomInput = styled(TextField)({
 
 const Login = () => {
 	const navigate = useNavigate();
-	const handleLogin = () => {
-		navigate({ pathname: "/" });
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('')
+	
+	
+	const handleLogin =async () => {
+		signInWithEmailAndPassword(auth, email, password)
+		.then((userCredential) => {
+			// Signed in 
+			const user = userCredential.user;
+			// ...
+			// alert(JSON.stringify(user))
+			localStorage.setItem("adminEmail",user.email as any)
+			localStorage.setItem("adminUsername",user.displayName as any)
+			// alert(localStorage.getItem("adminEmail"))
+			navigate({ pathname: "/" });
+		})
+		.catch((error) => {
+			const errorCode = error.code;
+			const errorMessage = error.message;
+			alert(error.message)
+		});
+		console.log(email,password)
 	};
 	return (
 		<div className={styles.loginContainer}>
@@ -43,11 +68,22 @@ const Login = () => {
 					title={mockLogin?.title}
 					description={mockLogin?.description}
 				/>
-				<CustomInput name="email" placeholder="Enter Email" />
+				<CustomInput name="email" placeholder="Enter Email"
+				value={email}
+				onChange={(e)=>{
+					setEmail(e.target.value)
+				}}
+				/>
 				<CustomInput
 					name="password"
 					placeholder="Password"
+				
+					value={password}
+					onChange={(e)=>{
+						setPassword(e.target.value)
+					}}
 					InputProps={{
+				
 						endAdornment: (
 							<InputAdornment
 								position="end"

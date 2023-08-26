@@ -19,7 +19,7 @@ function App() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	console.log("router", location);
-	if (location.pathname === "/dashboard") {
+	if (!localStorage.getItem('adminEmail')) {
 		navigate({ pathname: "/login" });
 	}
 	return (

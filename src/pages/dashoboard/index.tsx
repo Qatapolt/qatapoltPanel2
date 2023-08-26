@@ -13,7 +13,7 @@ import { footballIcon, menuIcon } from "../../assets/icons/indext";
 import { dataTrophyReq } from "../../mock/tablesMock";
 import { LineSliderHeader } from "../../components/header/inext";
 import Map from "../../components/map/Map";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {db,collection,getDocs} from "../../database/firebaseConfig"
 
 
@@ -48,21 +48,37 @@ const columnsDashboard = [
 
 
 const Dashboard = () => {
+const [users, setUsers] = useState<any>([])
+const [posts, setPosts] = useState<any>([])
+const [downloads, setDownloads] = useState<any>([])
+
 	async function getUsers(db:any) {
 		const usersCol = collection(db, 'users');
 		const usersSnapshot = await getDocs(usersCol);
 		const usersList = usersSnapshot.docs.map(doc => doc.data());
 		console.log('users',usersList)
+		setUsers(usersList)
+	}
+	async function getPosts(db:any) {
+		const postsCol = collection(db, 'Posts');
+		const postsSnapshot = await getDocs(postsCol);
+		const postsList = postsSnapshot.docs.map(doc => doc.data());
+		console.log('posts',postsList)
+		setPosts(postsList)
 	}
 	
 	useEffect(() => {
 	  getUsers(db)
+	  getPosts(db)
 	}, [])
 	return (
 		<>
 			<Grid container spacing={2}>
-				{analyticCardMock.map(({ title, subTitle, icon }) => {
-					return (
+				{analyticCardMock.map(({ title, subTitle, icon },index) => {
+					title =index==2?users.length:title 
+					title =index==1?posts.length:title 
+					title =index==0?downloads.length:title 
+					return ( 
 						<AnalyticalCard
 							title={title}
 							subTitle={subTitle}
@@ -101,7 +117,7 @@ const Dashboard = () => {
 			<Grid container marginTop={2} spacing={2}>
 				<Grid item xs={12} md={8}>
 					<ReactTable
-						data={dataTrophyReq.slice(0, 3)}
+						data={users.slice(0, 3)}
 						columns={columnsDashboard}
 						title="Total Visitors"
 						name="visitors"

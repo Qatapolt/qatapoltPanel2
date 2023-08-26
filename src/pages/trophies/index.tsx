@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PageHeader } from "../../components/header/inext";
 import SearchInput from "../../components/search";
 import { dataTrophyReq, defaultColumns } from "../../mock/tablesMock";
@@ -20,6 +20,7 @@ import {
 	SwitchProps,
 	styled,
 } from "@mui/material";
+import {db,collection,getDocs} from "../../database/firebaseConfig"
 
 // const CustomSwitch = styled((props: SwitchProps) => (
 // 	<Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -147,21 +148,30 @@ const columnsTrophies = [
 	{
 		Header: "Username",
 		accessor: "username",
+		Cell: (props: any) => (
+			props.value?props.value:"NON"
+		)
 	},
 	{
 		Header: "Email",
 		accessor: "email",
+		Cell: (props: any) => (
+			props.value?props.value:"NON"
+		)
 	},
 	{
 		Header: "Sport",
 		accessor: "sport",
 		Cell: (props: any) => {
-			return <TitleWithIcon title={props.value} icon={footballIcon} />;
+			return <TitleWithIcon title={props.value?props.value:"NON"} icon={footballIcon} />;
 		},
 	},
 	{
 		Header: "Phone Number",
 		accessor: "phone",
+		Cell: (props: any) => (
+			props.value?props.value:"NON"
+		)
 	},
 	{
 		Header: "Actions",
@@ -197,12 +207,24 @@ const columnsTrophies = [
 	},
 ];
 const Trophies = () => {
+	const [users, setUsers] = useState<any>([])
+
+	async function getUsers(db:any) {
+		const usersCol = collection(db, 'users');
+		const usersSnapshot = await getDocs(usersCol);
+		const usersList = usersSnapshot.docs.map(doc => doc.data());
+		console.log('users',usersList)
+		setUsers(usersList)
+	}
+	useEffect(() => {
+		getUsers(db)
+	  }, [])
 	return (
 		<div>
 			<PageHeader title="Trohpies">
 				<SearchInput />
 			</PageHeader>
-			<ReactTable data={dataTrophyReq} columns={columnsTrophies} />
+			<ReactTable data={users} columns={columnsTrophies} />
 		</div>
 	);
 };

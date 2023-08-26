@@ -3,9 +3,10 @@ import { PageHeader } from "../../components/header/inext";
 import ReactTable from "../../components/table";
 import { dataTrophyReq } from "../../mock/tablesMock";
 import { footballIcon, userIcon } from "../../assets/icons/indext";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import VerifyModal from "../../components/modals/VerifyModal";
 import ImageModal from "../../components/modals/ImageModal";
+import {db,collection,getDocs} from "../../database/firebaseConfig"
 
 interface TTitleWithIcon {
 	icon?: string;
@@ -34,6 +35,18 @@ export const TitleWithIcon = ({ icon, title }: TTitleWithIcon) => {
 const TrophyRequests = () => {
 	const [openVerify, setOpenVerify] = useState(false);
 	const [imageModal, setImageModal] = useState(false);
+	const [users, setUsers] = useState<any>([])
+
+	async function getUsers(db:any) {
+		const usersCol = collection(db, 'users');
+		const usersSnapshot = await getDocs(usersCol);
+		const usersList = usersSnapshot.docs.map(doc => doc.data());
+		console.log('users',usersList)
+		setUsers(usersList)
+	}
+	useEffect(() => {
+		getUsers(db)
+	  }, [])
 	const handleVerify = () => {
 		setOpenVerify(!openVerify);
 	};
@@ -53,21 +66,30 @@ const TrophyRequests = () => {
 		{
 			Header: "Username",
 			accessor: "username",
+			Cell: (props: any) => (
+				props.value?props.value:"NON"
+			)
 		},
 		{
 			Header: "Email",
 			accessor: "email",
+			Cell: (props: any) => (
+				props.value?props.value:"NON"
+			)
 		},
 		{
 			Header: "Sport",
 			accessor: "sport",
 			Cell: (props: any) => {
-				return <TitleWithIcon title={props.value} icon={footballIcon} />;
+				return <TitleWithIcon title={props.value?props.value:"NON"} icon={footballIcon} />;
 			},
 		},
 		{
 			Header: "Phone Number",
 			accessor: "phone",
+			Cell: (props: any) => (
+				props.value?props.value:"NON"
+			)
 		},
 		{
 			Header: () => {
@@ -86,7 +108,7 @@ const TrophyRequests = () => {
 	return (
 		<div>
 			<PageHeader title={"Trophy Requests"} />
-			<ReactTable data={dataTrophyReq} columns={columnsTrophyReq} />
+			<ReactTable data={users} columns={columnsTrophyReq} />
 
 			{openVerify && (
 				<VerifyModal

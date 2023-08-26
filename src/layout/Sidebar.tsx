@@ -18,12 +18,12 @@ export const SidebarFooter = () => {
           sx={{ mr: 1, width: 48, height: 48 }}
         />
         <div>
-          <Typography variant="body1">John Doe</Typography>
-          <Typography variant="body2">qata-polt</Typography>
+          <Typography variant="body1">{localStorage.getItem('adminEmail')?.split("@")[0]}</Typography>
+          <Typography variant="body2">QATAPOLT</Typography>
         </div>
       </div>
-      <div className={styles.footerLogout}>
-        <img src={sLogout} alt="logout" />
+      <div className={styles.footerLogout} onClick={()=>localStorage.clear()}>
+        <img src={sLogout} alt="logout" style={{cursor:"pointer"}} />
       </div>
     </div>
   );
