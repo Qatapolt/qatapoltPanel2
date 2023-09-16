@@ -161,7 +161,7 @@ const columnsTrophies = [
 	},
 	{
 		Header: "Sport",
-		accessor: "sport",
+		accessor: "selectSport",
 		Cell: (props: any) => {
 			return <TitleWithIcon title={props.value?props.value:"NON"} icon={footballIcon} />;
 		},
@@ -176,7 +176,7 @@ const columnsTrophies = [
 	{
 		Header: "Actions",
 		id: "custom",
-		accessor: "action",
+		accessor: "followers",
 		Cell: (props: any) => {
 			return props.value % 2 === 1 ? (
 				<div className="flexTrofies">

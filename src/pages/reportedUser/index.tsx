@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PageHeader } from "../../components/header/inext";
 import ReportCard from "../../components/card/ReportCard";
 import {
@@ -11,14 +11,59 @@ import {
 	Select,
 	SelectChangeEvent,
 } from "@mui/material";
+import { db } from "../../database/firebaseConfig";
+import { collection, getDocs,  } from "firebase/firestore/lite"; 
 
 const ReportedUser = () => {
 	const [day, setDay] = useState("");
+	const [reportsList, setReportsList] = useState<any>([])
+	const [reportsListNew, setReportsListNew] = useState<any>([])
+	const [users, setUsers] = useState<any>([])
+
+	async function getUsers(db:any) {
+		const usersCol = collection(db, 'users');
+		const usersSnapshot = await getDocs(usersCol);
+		const usersList = usersSnapshot.docs.map(doc => {
+			let data =doc.data();
+			let id =doc.id
+			
+			return{...data,id}
+		});
+		console.log('users',usersList)
+		setUsers(usersList)
+	}
+	async function getReports(db:any) {
+		const reportCol = collection(db, 'reportUsers');
+		const reportSnapshot = await getDocs(reportCol);
+		const reportList = reportSnapshot.docs.map(doc => {
+			let data =doc.data();
+			let id =doc.id
+			
+			return{...data,id}
+		});
+		console.log('reports',reportList)
+		setReportsList(reportList)
+	}
+	useEffect(() => {
+	}, [])
+	useEffect(() => {
+	}, [])
+	// useEffect(() => {
+	// 	getReports(db)
+	// 	getUsers(db)
+	// 	let data:any=[];
+	// 	reportsList.map((r:any)=>{
+	// 		let ro = users.find((u:any)=>r?.reportedOn===u.id)
+	// 		let ru = users.find((u:any)=>r?.reportedUserId===u.id)
+	// 		data.push({...r,reportedOn:ro,reportedUser:ru})
+	// 	})
+	// 	setReportsListNew(data)
+	//   }, [])
 
 	const handleChange = (event: SelectChangeEvent) => {
 		setDay(event.target.value);
 	};
-	return (
+	return ( 
 		<div>
 			<PageHeader title="Reported User">
 				<Box
@@ -60,8 +105,8 @@ const ReportedUser = () => {
 				</Box>
 			</PageHeader>
 			<Grid container spacing={3}>
-				{[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-					<ReportCard key={item} />
+				{reportsList.map((item:any,index:any) => (
+					<ReportCard report={item} users={users} key={index}  />
 				))}
 			</Grid>
 		</div>

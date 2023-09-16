@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { getAuth } from "firebase/auth";
+import { getStorage,ref } from "firebase/storage";
+import { v4 } from "uuid";
 
 // Import the functions you need from the SDKs you need
 // TODO: Add SDKs for Firebase products that you want to use
@@ -24,6 +26,10 @@ export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
+export const storage = getStorage(app);
+export const imagesRef = ref(storage, 'images');
+export const spaceRef = ref(storage, 'images/'+v4());
+
 
 export {collection,getDocs}
 

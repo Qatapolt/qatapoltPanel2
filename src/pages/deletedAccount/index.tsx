@@ -5,73 +5,93 @@ import { TitleWithIcon } from "../trophyRequest";
 import { deleteIcon, footballIcon } from "../../assets/icons/indext";
 import SearchInput from "../../components/search";
 import { useEffect, useState } from "react";
-import {db,collection,getDocs} from "../../database/firebaseConfig"
+import { db, collection, getDocs } from "../../database/firebaseConfig";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore/lite";
 
-const columnsDeletedAccount = [
-	{
-		Header: "Name",
-		accessor: "name",
-		Cell: (props: any) => {
-			return <TitleWithIcon title={props.value} />;
-		},
-	},
-	{
-		Header: "Username",
-		accessor: "username",
-		Cell: (props: any) => (
-			props.value?props.value:"NON"
-		)
-	},
-	{
-		Header: "Email",
-		accessor: "email",
-		Cell: (props: any) => (
-			props.value?props.value:"NON"
-		)
-	},
-	{
-		Header: "Sport",
-		accessor: "sport",
-		Cell: (props: any) => {
-			return <TitleWithIcon title={props.value?props.value:"NON"} icon={footballIcon} />;
-		},
-	},
-	{
-		Header: "Phone Number",
-		accessor: "phone",
-		Cell: (props: any) => (
-			props.value?props.value:"NON"
-		)
-	},
-	{
-		Header: () => {
-			return null;
-		},
-		id: "custom",
-		Cell: () => <img src={deleteIcon} alt="del-icon" className="pointer" />,
-	},
-];
 const DeletedAccount = () => {
-	const [users, setUsers] = useState<any>([])
+  const columnsDeletedAccount = [
+    {
+      Header: "Name",
+      accessor: "name",
+      Cell: (props: any) => {
+        return <TitleWithIcon title={props.value} />;
+      },
+    },
+    {
+      Header: "Username",
+      accessor: "username",
+      Cell: (props: any) => (props.value ? props.value : "NON"),
+    },
+    {
+      Header: "Email",
+      accessor: "email",
+      Cell: (props: any) => (props.value ? props.value : "NON"),
+    },
+    {
+      Header: "Sport",
+      accessor: "selectSport",
+      Cell: (props: any) => {
+        return (
+          <TitleWithIcon
+            title={props.value ? props.value : "NON"}
+            icon={footballIcon}
+          />
+        );
+      },
+    },
+    {
+      Header: "Phone Number",
+      accessor: "phone",
+      Cell: (props: any) => (props.value ? props.value : "NON"),
+    },
+    {
+      Header: () => {
+        return null;
+      },
+      accessor: "uid",
+      Cell: (props: any) => (
+        <img
+          src={deleteIcon}
+          onClick={() => {
+            if (confirm('Are You Sure!')) {
+              delUser(props.value);
+            }
+          }}
+          alt="del-icon"
+          className="pointer"
+        />
+      ),
+    },
+  ];
+  const [users, setUsers] = useState<any>([]);
+//   const [id, setId] = useState<any>("");
 
-	async function getUsers(db:any) {
-		const usersCol = collection(db, 'users');
-		const usersSnapshot = await getDocs(usersCol);
-		const usersList = usersSnapshot.docs.map(doc => doc.data());
-		console.log('users',usersList)
-		setUsers(usersList)
-	}
-	useEffect(() => {
-		getUsers(db)
-	  }, [])
-	return (
-		<>
-			<PageHeader title={"Deleted Accounts"}>
-				<SearchInput />
-			</PageHeader>
-			<ReactTable data={users} columns={columnsDeletedAccount} />
-		</>
-	);
+  async function getUsers(db: any) {
+    const usersCol = collection(db, "users");
+    const usersSnapshot = await getDocs(usersCol);
+    const usersList = usersSnapshot.docs.map((doc) => doc.data());
+    console.log("users", usersList);
+    setUsers(usersList);
+  }
+  const delUser = async (id:any) => {
+    const userRef = doc(db, "users", id);
+
+    // Set the "capital" field of the city 'DC'
+    await deleteDoc(userRef)
+      .then(() => window.location.reload())
+      .catch((e) => alert(e));
+  };
+  useEffect(() => {
+    getUsers(db);
+  }, []);
+  return (
+    <>
+      <PageHeader title={"Deleted Accounts"}>
+        <SearchInput />
+      </PageHeader>
+      <ReactTable data={users} columns={columnsDeletedAccount} />
+    </>
+  );
 };
 
 export default DeletedAccount;

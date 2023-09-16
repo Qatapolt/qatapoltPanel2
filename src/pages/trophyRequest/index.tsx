@@ -79,7 +79,7 @@ const TrophyRequests = () => {
 		},
 		{
 			Header: "Sport",
-			accessor: "sport",
+			accessor: "selectSport",
 			Cell: (props: any) => {
 				return <TitleWithIcon title={props.value?props.value:"NON"} icon={footballIcon} />;
 			},
