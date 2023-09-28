@@ -9,36 +9,37 @@ interface TReportCard {
 	users:any;
 }
 const ReportCard = ({ isEnquiries=false,report, users }: TReportCard) => {
-	const UserTitle = () => {
+	const UserTitle = ({username,email}:any) => {
 		return (
 			<div className="flexStart">
 				<img src={userIcon} alt="icon-user" width={48} height={48} />
 				<div className="flexCenter">
-					<Typography className="title">{'users[0].name'}</Typography>
-					<Typography className="subTitle">example@gmail.com</Typography>
+					<Typography className="title">{username}</Typography>
+					<Typography className="subTitle" fontSize={12}>{email}</Typography>
 				</div>
 			</div>
 		);
 	};
-	const ru=users.find((u:any)=>report?.reportedUserId===u.id)
-	const ro=users.find((u:any)=>report?.reportedOn===u.id)
+	// const ru=users.find((u:any)=>report?.reportedUserId===u.id)
+	// const ro=users.find((u:any)=>report?.reportedOn===u.id)
 	return (
 		<Grid item xs={12} sm={6} md={3}>
 			<Card>
-				<UserTitle />
+				<UserTitle username={report?.reportedUser?.username} email={report?.reportedUser?.email}/>
 				<Box component={"div"}>
 					<div className="category common">
 						<Typography className="reportTitle">
 							{isEnquiries ? `Username` : `Category`}
 						</Typography>
 						{isEnquiries ? (
-							<Typography className="subTitle">{ru.user}</Typography>
+							<Typography className="subTitle">{'ru.user'}</Typography>
 						) : (
 							<Button
 								variant="contained"
 								color="secondary"
 								sx={{ color: "white" }}
 							>
+								
 								{report.category}
 							</Button>
 						)}
@@ -55,14 +56,15 @@ const ReportCard = ({ isEnquiries=false,report, users }: TReportCard) => {
 
 					<div className="date common">
 						<Typography className="reportTitle">Date</Typography>
-						<Typography className="subTitle">{moment(report.date).utc().format("dd")} 06 jun 2023</Typography>
+						<Typography className="subTitle">{moment(report.date.seconds).utc().format("DD MMM yy")}</Typography>
+						<Typography className="subTitle">{moment(report.date).toString()}</Typography>
 					</div>
 					{!isEnquiries && (
 						<div className="reportedOn common">
 							<Typography className="reportTitle reportOn">
 								Reported on
 							</Typography>
-							<UserTitle />
+							<UserTitle username={report?.reportedOn?.username} email={report?.reportedOn?.email} />
 						</div>
 					)}
 					<Button variant="contained" fullWidth className="common">

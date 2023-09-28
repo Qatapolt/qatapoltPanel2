@@ -74,23 +74,40 @@ export default function AddNewsModal({ open, handleClose }: TAddNewsModal) {
   const [description, setDescription] = React.useState("");
   const [image, setImage] = React.useState({
     imgFrame: imgFrame,
-    file: "",
+    file: new Blob,
     uri: "",
   });
   //   const [imageLink, setImageLink] = React.useState("");
   //   const [file, setFile] = React.useState("");
-
+  
   const addNews = async () => {
+    uploadBytes(spaceRef, image.file).then((snapshot) => {
+      // console.log(snapshot.ref._location.path);
+      let downRef = ref(storage, snapshot.ref._location.path);
+      getDownloadURL(downRef).then(async (url) => {
+        // setImage({...image,uri:url})
+
+        await addDoc(collection(db, "news"), {
+          title,
+          subTitle,
+          description,
+          image: url,
+        }).then(() => window.location.reload())
+		  .catch((e) => alert(e));
+      });
+    });
     // Add a new document in collection "news"
     // uploadImage(image.file)
-    await addDoc(collection(db, "news"), {
-      title,
-      subTitle,
-      description,
-      image: imageLink,
-    })
-      .then(() => window.location.reload())
-      .catch((e) => alert(e));
+    // console.log("uri",image.uri)
+
+    // await addDoc(collection(db, "news"), {
+    //   title,
+    //   subTitle,
+    //   description,
+    //   image: image.uri,
+    // })
+    //   .then(() => window.location.reload())
+    //   .catch((e) => alert(e));
   };
 
   const handleUserProfile = () => {
@@ -99,14 +116,17 @@ export default function AddNewsModal({ open, handleClose }: TAddNewsModal) {
 
   const handleChange = (e: any) => {
     let link = URL.createObjectURL(e.target.files[0]);
-    setImage({ ...image, imgFrame: link });
-    console.log(image.imgFrame);
+    setImage({ ...image, file: e.target.files[0], imgFrame: link });
+    // console.log("outPut",image.file);
+    // console.log("temp",e.target.files[0]);
+
+    // return ()=>{}
   };
-  
+
   React.useEffect(() => {
-	
-  }, [image.imgFrame])
-  
+    console.log("outPut", image.file);
+    console.log("outPut", image.imgFrame);
+  }, [image.file]);
 
   return (
     <BootstrapDialog

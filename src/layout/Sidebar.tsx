@@ -9,6 +9,7 @@ import { Menu } from "@mui/icons-material";
 const drawerWidth = 240;
 
 export const SidebarFooter = () => {
+  const navigate = useNavigate();
   return (
     <div className={styles.sidebarFooterWrapper}>
       <div className={styles.footer}>
@@ -18,12 +19,21 @@ export const SidebarFooter = () => {
           sx={{ mr: 1, width: 48, height: 48 }}
         />
         <div>
-          <Typography variant="body1">{localStorage.getItem('adminEmail')?.split("@")[0]}</Typography>
+          <Typography variant="body1">
+            {localStorage.getItem("adminEmail")?.split("@")[0]}
+          </Typography>
           <Typography variant="body2">QATAPOLT</Typography>
         </div>
       </div>
-      <div className={styles.footerLogout} onClick={()=>localStorage.clear()}>
-        <img src={sLogout} alt="logout" style={{cursor:"pointer"}} />
+      <div
+        className={styles.footerLogout}
+        onClick={() => {
+          localStorage.clear();
+          navigate({ pathname: "/login" });
+          // window.location.reload();
+        }}
+      >
+        <img src={sLogout} alt="logout" style={{ cursor: "pointer" }} />
       </div>
     </div>
   );

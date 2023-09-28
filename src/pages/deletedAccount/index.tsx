@@ -64,6 +64,8 @@ const DeletedAccount = () => {
     },
   ];
   const [users, setUsers] = useState<any>([]);
+  const [usersFilter, setUsersFilter] = useState<any>([]);
+
 //   const [id, setId] = useState<any>("");
 
   async function getUsers(db: any) {
@@ -72,7 +74,19 @@ const DeletedAccount = () => {
     const usersList = usersSnapshot.docs.map((doc) => doc.data());
     console.log("users", usersList);
     setUsers(usersList);
+    setUsersFilter(usersList);
   }
+  const onSearch = (e: any) => {
+    setUsersFilter(
+      users.filter(
+        (u: any) =>
+          u.name.includes(e.target.value) ||
+          u.username.includes(e.target.value) ||
+          u.email.includes(e.target.value)
+      )
+    );
+    console.log(usersFilter.length);
+  };
   const delUser = async (id:any) => {
     const userRef = doc(db, "users", id);
 
@@ -87,9 +101,9 @@ const DeletedAccount = () => {
   return (
     <>
       <PageHeader title={"Deleted Accounts"}>
-        <SearchInput />
+        <SearchInput onSearch={onSearch} />
       </PageHeader>
-      <ReactTable data={users} columns={columnsDeletedAccount} />
+      <ReactTable data={usersFilter} columns={columnsDeletedAccount} />
     </>
   );
 };

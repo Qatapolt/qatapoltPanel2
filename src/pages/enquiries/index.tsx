@@ -9,9 +9,9 @@ const Enquiries = () => {
 				<Button>Completed</Button>
 			</PageHeader>
 			<Grid container spacing={3}>
-				{[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+				{/* {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
 					<ReportCard key={item} isEnquiries={true} />
-				))}
+				))} */}
 			</Grid>
 		</div>
 	);

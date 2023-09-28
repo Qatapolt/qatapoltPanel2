@@ -36,19 +36,27 @@ const TrophyRequests = () => {
 	const [openVerify, setOpenVerify] = useState(false);
 	const [imageModal, setImageModal] = useState(false);
 	const [users, setUsers] = useState<any>([])
+	const [user, setUser] = useState<any>({})
 
 	async function getUsers(db:any) {
-		const usersCol = collection(db, 'users');
+		const usersCol = collection(db, 'TrophyRequest');
 		const usersSnapshot = await getDocs(usersCol);
-		const usersList = usersSnapshot.docs.map(doc => doc.data());
+		const usersList = usersSnapshot.docs.map(doc => {
+			let data =doc.data();
+			let id =doc.id
+
+			return{...data,id}
+		});
 		console.log('users',usersList)
 		setUsers(usersList)
 	}
 	useEffect(() => {
 		getUsers(db)
 	  }, [])
-	const handleVerify = () => {
+	const handleVerify = (id:any) => {
+		let r=users.find((u:any)=>u.id==id);
 		setOpenVerify(!openVerify);
+		setUser(r)
 	};
 
 	const handleImgModal = useCallback(() => {
@@ -79,14 +87,14 @@ const TrophyRequests = () => {
 		},
 		{
 			Header: "Sport",
-			accessor: "selectSport",
+			accessor: "sport",
 			Cell: (props: any) => {
 				return <TitleWithIcon title={props.value?props.value:"NON"} icon={footballIcon} />;
 			},
 		},
 		{
 			Header: "Phone Number",
-			accessor: "phone",
+			accessor: "phoneNumber",
 			Cell: (props: any) => (
 				props.value?props.value:"NON"
 			)
@@ -95,15 +103,16 @@ const TrophyRequests = () => {
 			Header: () => {
 				return null;
 			},
-			id: "custom",
-			accessor: "sport",
-			Cell: () => (
-				<Button variant="contained" onClick={handleVerify}>
+			// id: "id",
+			accessor: "id",
+			Cell: (props:any) => (
+				<Button variant="contained" onClick={()=>handleVerify(props.value)} >
 					Very Account
 				</Button>
 			),
 		},
 	];
+	
 
 	return (
 		<div>
@@ -115,6 +124,7 @@ const TrophyRequests = () => {
 					open={openVerify}
 					handleClose={() => setOpenVerify(false)}
 					handleImgModal={handleImgModal}
+					user={user}
 				/>
 			)}
 

@@ -46,9 +46,15 @@ const BlockedAccount = () => {
 			)
 		},
 		{
-			Header: () => {
-				return null;
-			},
+			Header: "status",
+			accessor: "status",
+			Cell: (props: any) => (
+				// props.value?"Unblock":"Active"
+				props.value?props.value:"Active"
+			)
+		},
+		{
+			Header: () => "Action",
 			accessor:"uid",
 			id: "custom",
 			Cell: (props:any) => <img src={closeIcon} onClick={()=>{

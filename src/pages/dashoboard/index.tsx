@@ -1,9 +1,9 @@
 import { Card, Grid, Typography } from "@mui/material";
 import AnalyticalCard from "../../components/card/AnalyticalCard";
 import {
-	analyticCardMock,
-	circularSliderMock,
-	lineSliderMock,
+  analyticCardMock,
+  circularSliderMock,
+  lineSliderMock,
 } from "../../mock";
 import { CircularSlider, LineSlider } from "../../components/slider";
 import ReactTable from "../../components/table";
@@ -14,144 +14,172 @@ import { dataTrophyReq } from "../../mock/tablesMock";
 import { LineSliderHeader } from "../../components/header/inext";
 import Map from "../../components/map/Map";
 import { useEffect, useState } from "react";
-import {db,collection,getDocs} from "../../database/firebaseConfig"
-
+import { db, collection, getDocs } from "../../database/firebaseConfig";
 
 const columnsDashboard = [
-	{
-		Header: "Name",
-		accessor: "name",
-		Cell: (props: any) => {
-			return <TitleWithIcon title={props.value} />;
-		},
-	},
-	{
-		Header: "Email",
-		accessor: "email",
-	},
-	{
-		Header: "Type",
-		accessor: "sport",
-		Cell: (props: any) => {
-			return <TitleWithIcon title={props.value} icon={footballIcon} />;
-		},
-	},
+  {
+    Header: "Name",
+    accessor: "name",
+    Cell: (props: any) => {
+      return <TitleWithIcon title={props.value} />;
+    },
+  },
+  {
+    Header: "Email",
+    accessor: "email",
+  },
+  {
+    Header: "Type",
+    accessor: "selectSport",
+    Cell: (props: any) => {
+      return <TitleWithIcon title={props.value} icon={footballIcon} />;
+    },
+  },
 
-	{
-		Header: () => {
-			return null;
-		},
-		id: "menu",
-		Cell: () => <img src={menuIcon} alt="del-icon" className="pointer" />,
-	},
+  {
+    Header: () => {
+      return null;
+    },
+    id: "menu",
+    Cell: () => <img src={menuIcon} alt="del-icon" className="pointer" />,
+  },
 ];
-
-
 const Dashboard = () => {
-const [users, setUsers] = useState<any>([])
-const [posts, setPosts] = useState<any>([])
-const [downloads, setDownloads] = useState<any>([])
+  const [users, setUsers] = useState<any>([]);
+  const [posts, setPosts] = useState<any>([]);
+  const [topStates, setTopStates] = useState<any>(analyticCardMock);
+  const [ageData, setAgeData] = useState<any>(circularSliderMock);
 
-	async function getUsers(db:any) {
-		const usersCol = collection(db, 'users');
-		const usersSnapshot = await getDocs(usersCol);
-		const usersList = usersSnapshot.docs.map(doc => doc.data());
-		console.log('users',usersList)
-		setUsers(usersList)
-	}
-	async function getPosts(db:any) {
-		const postsCol = collection(db, 'Posts');
-		const postsSnapshot = await getDocs(postsCol);
-		const postsList = postsSnapshot.docs.map(doc => doc.data());
-		console.log('posts',postsList)
-		setPosts(postsList)
-	}
-	
-	useEffect(() => {
-	  getUsers(db)
-	  getPosts(db)
-	}, [])
-	return (
-		<>
-			<Grid container spacing={2}>
-				{analyticCardMock.map(({ title, subTitle, icon },index) => {
-					title =index==2?users.length:title 
-					title =index==1?posts.length:title 
-					title =index==0?downloads.length:title 
-					return ( 
-						<AnalyticalCard
-							title={title}
-							subTitle={subTitle}
-							icon={icon}
-							key={title}
-						/>
-					);
-				})}
-			</Grid>
+  async function getUsers(db: any) {
+    const usersCol = collection(db, "users");
+    const usersSnapshot = await getDocs(usersCol);
+    const usersList = usersSnapshot.docs.map((doc) => doc.data());
+    console.log("users", usersList);
+    setUsers(usersList);
+  }
+  async function getPosts(db: any) {
+    const postsCol = collection(db, "Posts");
+    const postsSnapshot = await getDocs(postsCol);
+    const postsList = postsSnapshot.docs.map((doc) => doc.data());
+    console.log("posts", postsList);
+    setPosts(postsList);
+  }
 
-			<Grid container spacing={2} marginTop={2}>
-				<Grid item xs={12} md={8}>
-					<Card>
-						<Typography>Map View</Typography>
-						<Map />
-					</Card>
-				</Grid>
-				<Grid item xs={12} md={4}>
-					<Card>
-						<LineSliderHeader title="Users Breakdown" />
-						{lineSliderMock
-							.slice(0, 3)
-							.map(({ total, name, percentage, color }) => (
-								<LineSlider
-									total={total}
-									name={name}
-									percentage={percentage}
-									key={total}
-									color={color}
-								/>
-							))}
-					</Card>
-				</Grid>
-			</Grid>
+  useEffect(() => {
+    getPosts(db);
+    getUsers(db);
+  }, []);
 
-			<Grid container marginTop={2} spacing={2}>
-				<Grid item xs={12} md={8}>
-					<ReactTable
-						data={users.slice(0, 3)}
-						columns={columnsDashboard}
-						title="Total Visitors"
-						name="visitors"
-					/>
-				</Grid>
-				<Grid item xs={12} md={4}>
-					<Card>
-						<div className={styles.dashboardFlex}>
-							{circularSliderMock.map(({ title, percentage, color }) => (
-								<CircularSlider
-									percentage={percentage}
-									title={title}
-									key={title}
-									color={color}
-								/>
-							))}
-						</div>
+  useEffect(() => {
+    if (users.length) {
+      let under18 = users.filter((u: any) => u.age < 18).length;
+      let under30 = users.filter((u: any) => u.age < 30 && u.age > 18).length;
+      let under50 = users.filter((u: any) => u.age < 50 && u.age > 30).length;
+      let under60 = users.filter((u: any) => u.age < 60 && u.age > 50).length;
+      let totalUser = users.length;
+      ageData[0] = {
+        ...ageData[0],
+        percentage: Math.round((under18 / totalUser) * 100),
+      };
+      ageData[1] = {
+        ...ageData[1],
+        percentage: Math.round((under30 / totalUser) * 100),
+      };
+      ageData[2] = {
+        ...ageData[2],
+        percentage: Math.round((under50 / totalUser) * 100),
+      };
+      ageData[3] = {
+        ...ageData[3],
+        percentage: Math.round((under60 / totalUser) * 100),
+      };
+      // console.log(ageData)
+    }
+  }, [users]);
+  useEffect(() => {
+    topStates[0] = { ...topStates[0], title: users.length };
+    topStates[1] = { ...topStates[1], title: posts.length };
+    topStates[2] = { ...topStates[2], title: users.length };
+  }, [posts, users]);
 
-						{lineSliderMock
-							.slice(0, 2)
-							.map(({ total, name, percentage, color }) => (
-								<LineSlider
-									total={total}
-									name={name}
-									percentage={percentage}
-									key={total}
-									color={color}
-								/>
-							))}
-					</Card>
-				</Grid>
-			</Grid>
-		</>
-	);
+  return (
+    <>
+      <Grid container spacing={2}>
+        {topStates.map(({ title, subTitle, icon }: any, index: any) => {
+          return (
+            <AnalyticalCard
+              title={title}
+              subTitle={subTitle}
+              icon={icon}
+              key={index}
+            />
+          );
+        })}
+      </Grid>
+
+      <Grid container spacing={2} marginTop={2}>
+        <Grid item xs={12} md={8}>
+          <Card>
+            <Typography>Map View</Typography>
+            <Map />
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <LineSliderHeader title="Users Breakdown" />
+            {lineSliderMock
+              .slice(0, 3)
+              .map(({ total, name, percentage, color }) => (
+                <LineSlider
+                  total={total}
+                  name={name}
+                  percentage={percentage}
+                  key={total}
+                  color={color}
+                />
+              ))}
+          </Card>
+        </Grid>
+      </Grid>
+
+      <Grid container marginTop={2} spacing={2}>
+        <Grid item xs={12} md={8}>
+          <ReactTable
+            data={users.slice(0, 3)}
+            columns={columnsDashboard}
+            title="Total Visitors"
+            name="visitors"
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <div className={styles.dashboardFlex}>
+              {ageData.map(({ title, percentage, color }: any) => (
+                <CircularSlider
+                  percentage={percentage}
+                  title={title}
+                  key={title}
+                  color={color}
+                />
+              ))}
+            </div>
+
+            {lineSliderMock
+              .slice(0, 2)
+              .map(({ total, name, percentage, color }) => (
+                <LineSlider
+                  total={total}
+                  name={name}
+                  percentage={percentage}
+                  key={total}
+                  color={color}
+                />
+              ))}
+          </Card>
+        </Grid>
+      </Grid>
+    </>
+  );
 };
 
 export default Dashboard;

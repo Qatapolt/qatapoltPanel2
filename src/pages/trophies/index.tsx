@@ -5,22 +5,22 @@ import { dataTrophyReq, defaultColumns } from "../../mock/tablesMock";
 import ReactTable from "../../components/table";
 import { TitleWithIcon } from "../trophyRequest";
 import {
-	closeIcon,
-	footballIcon,
-	menuIcon,
-	switchCupIcon,
-	toogleIconOff,
-	toogleIconOn,
+  closeIcon,
+  footballIcon,
+  menuIcon,
+  switchCupIcon,
+  toogleIconOff,
+  toogleIconOn,
 } from "../../assets/icons/indext";
 import {
-	Box,
-	Button,
-	FormControlLabel,
-	Switch,
-	SwitchProps,
-	styled,
+  Box,
+  Button,
+  FormControlLabel,
+  Switch,
+  SwitchProps,
+  styled,
 } from "@mui/material";
-import {db,collection,getDocs} from "../../database/firebaseConfig"
+import { db, collection, getDocs } from "../../database/firebaseConfig";
 
 // const CustomSwitch = styled((props: SwitchProps) => (
 // 	<Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -138,95 +138,107 @@ import {db,collection,getDocs} from "../../database/firebaseConfig"
 // 	},
 // }));
 const columnsTrophies = [
-	{
-		Header: "Name",
-		accessor: "name",
-		Cell: (props: any) => {
-			return <TitleWithIcon title={props.value} />;
-		},
-	},
-	{
-		Header: "Username",
-		accessor: "username",
-		Cell: (props: any) => (
-			props.value?props.value:"NON"
-		)
-	},
-	{
-		Header: "Email",
-		accessor: "email",
-		Cell: (props: any) => (
-			props.value?props.value:"NON"
-		)
-	},
-	{
-		Header: "Sport",
-		accessor: "selectSport",
-		Cell: (props: any) => {
-			return <TitleWithIcon title={props.value?props.value:"NON"} icon={footballIcon} />;
-		},
-	},
-	{
-		Header: "Phone Number",
-		accessor: "phone",
-		Cell: (props: any) => (
-			props.value?props.value:"NON"
-		)
-	},
-	{
-		Header: "Actions",
-		id: "custom",
-		accessor: "followers",
-		Cell: (props: any) => {
-			return props.value % 2 === 1 ? (
-				<div className="flexTrofies">
-					{/* <img src={toogleIconOff} alt="off" /> */}
-					<Switch defaultChecked color="primary" size="medium" />
-					<Button
-						variant="contained"
-						sx={{ borderRadius: "20px", marginLeft: "12px" }}
-					>
-						Enable Trophy
-					</Button>
-				</div>
-			) : (
-				<Box sx={{ textAlign: "center" }}>
-					{/* <img src={toogleIconOn} alt="off" /> */}
-					<Switch defaultChecked color="secondary" size="medium" />
-					{/* <CustomSwitch sx={{ m: 1 }} defaultChecked /> */}
-				</Box>
-			);
-		},
-	},
-	{
-		Header: () => {
-			return null;
-		},
-		id: "menu",
-		Cell: () => <img src={menuIcon} alt="del-icon" className="pointer" />,
-	},
+  {
+    Header: "Name",
+    accessor: "name",
+    Cell: (props: any) => {
+      return <TitleWithIcon title={props.value} />;
+    },
+  },
+  {
+    Header: "Username",
+    accessor: "username",
+    Cell: (props: any) => (props.value ? props.value : "NON"),
+  },
+  {
+    Header: "Email",
+    accessor: "email",
+    Cell: (props: any) => (props.value ? props.value : "NON"),
+  },
+  {
+    Header: "Sport",
+    accessor: "selectSport",
+    Cell: (props: any) => {
+      return (
+        <TitleWithIcon
+          title={props.value ? props.value : "NON"}
+          icon={footballIcon}
+        />
+      );
+    },
+  },
+  {
+    Header: "Phone Number",
+    accessor: "phoneNumber",
+    Cell: (props: any) => (props.value ? props.value : "NON"),
+  },
+  {
+    Header: "Actions",
+    id: "custom",
+    accessor: "followers",
+    Cell: (props: any) => {
+      return props.value % 2 === 1 ? (
+        <div className="flexTrofies">
+          {/* <img src={toogleIconOff} alt="off" /> */}
+          {/* <Switch defaultChecked color="primary" size="medium" /> */}
+          <Button
+            variant="contained"
+            sx={{ borderRadius: "20px", marginLeft: "12px" }}
+          >
+            Enable Trophy
+          </Button>
+        </div>
+      ) : (
+        <Box sx={{ textAlign: "center" }}>
+          {/* <img src={toogleIconOn} alt="off" /> */}
+          <Switch defaultChecked color="secondary" size="medium" />
+          {/* <CustomSwitch sx={{ m: 1 }} defaultChecked /> */}
+        </Box>
+      );
+    },
+  },
+  {
+    Header: () => {
+      return null;
+    },
+    id: "menu",
+    Cell: () => <img src={menuIcon} alt="del-icon" className="pointer" />,
+  },
 ];
 const Trophies = () => {
-	const [users, setUsers] = useState<any>([])
+  const [users, setUsers] = useState<any>([]);
+  const [usersFilter, setUsersFilter] = useState<any>([]);
 
-	async function getUsers(db:any) {
-		const usersCol = collection(db, 'users');
-		const usersSnapshot = await getDocs(usersCol);
-		const usersList = usersSnapshot.docs.map(doc => doc.data());
-		console.log('users',usersList)
-		setUsers(usersList)
-	}
-	useEffect(() => {
-		getUsers(db)
-	  }, [])
-	return (
-		<div>
-			<PageHeader title="Trohpies">
-				<SearchInput />
-			</PageHeader>
-			<ReactTable data={users} columns={columnsTrophies} />
-		</div>
-	);
+  async function getUsers(db: any) {
+    const usersCol = collection(db, "users");
+    const usersSnapshot = await getDocs(usersCol);
+    const usersList = usersSnapshot.docs.map((doc) => doc.data());
+    console.log("users", usersList);
+    setUsers(usersList);
+    setUsersFilter(usersList);
+  }
+  const onSearch = (e: any) => {
+    setUsersFilter(
+      users.filter(
+        (u: any) =>
+          u.name.includes(e.target.value) ||
+          u.username.includes(e.target.value) ||
+          u.email.includes(e.target.value)
+      )
+    );
+    console.log(usersFilter.length);
+  };
+  useEffect(() => {
+    getUsers(db);
+  }, []);
+  return (
+    <div>
+      <PageHeader title="Trohpies">
+        <SearchInput onSearch={onSearch} />
+      </PageHeader>
+      <ReactTable data={usersFilter} columns={columnsTrophies} />
+    </div>
+  );
 };
 
 export default Trophies;

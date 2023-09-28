@@ -77,7 +77,7 @@ const Login = () => {
 				<CustomInput
 					name="password"
 					placeholder="Password"
-				
+				type={'password'}
 					value={password}
 					onChange={(e)=>{
 						setPassword(e.target.value)
@@ -89,7 +89,7 @@ const Login = () => {
 								position="end"
 								className={styles.passwordHideShow}
 							>
-								<Typography color={"#fff"}>Hide</Typography>
+								{/* <Typography color={"#fff"}>Hide</Typography> */}
 							</InputAdornment>
 						),
 					}}
