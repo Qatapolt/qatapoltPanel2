@@ -7,8 +7,11 @@ import SearchInput from "../../components/search";
 import { useEffect, useState } from "react";
 import { db, collection, getDocs } from "../../database/firebaseConfig";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore/lite";
+import Loader from "react-js-loader";
 
 const DeletedAccount = () => {
+	const [loader, setLoader] = useState(false);
+
   const columnsDeletedAccount = [
     {
       Header: "Name",
@@ -75,6 +78,7 @@ const DeletedAccount = () => {
     console.log("users", usersList);
     setUsers(usersList);
     setUsersFilter(usersList);
+	setLoader(false)
   }
   const onSearch = (e: any) => {
     setUsersFilter(
@@ -96,6 +100,7 @@ const DeletedAccount = () => {
       .catch((e) => alert(e));
   };
   useEffect(() => {
+	setLoader(true)
     getUsers(db);
   }, []);
   return (
@@ -103,6 +108,17 @@ const DeletedAccount = () => {
       <PageHeader title={"Deleted Accounts"}>
         <SearchInput onSearch={onSearch} />
       </PageHeader>
+	  {loader ? (
+        <Loader
+          type="spinner-circle"
+          bgColor={"#1928"}
+          // title={"spinner-circle"}
+          // color={"#9182"}
+          size={100}
+        />
+      ) : (
+        <></>
+      )}
       <ReactTable data={usersFilter} columns={columnsDeletedAccount} />
     </>
   );

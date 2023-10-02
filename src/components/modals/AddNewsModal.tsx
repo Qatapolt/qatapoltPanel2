@@ -6,7 +6,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, InputLabel, TextField } from "@mui/material";
+import { Autocomplete, Box, InputLabel, TextField } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { crossIcon, imgFrame, plusIcon } from "../../assets/icons/indext";
 import {
@@ -65,23 +65,29 @@ function Title(props: DialogTitleProps) {
 
 interface TAddNewsModal {
   open: boolean;
+  users: [];
   handleClose: () => void;
 }
-export default function AddNewsModal({ open, handleClose }: TAddNewsModal) {
+export default function AddNewsModal({
+  open,
+  users,
+  handleClose,
+}: TAddNewsModal) {
   const [isProfile, setIsProfile] = React.useState(false);
+  const [username, setUsername] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [subTitle, setSubTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [image, setImage] = React.useState({
     imgFrame: imgFrame,
-    file: new Blob,
+    file: new Blob(),
     uri: "",
   });
   //   const [imageLink, setImageLink] = React.useState("");
   //   const [file, setFile] = React.useState("");
-  
+
   const addNews = async () => {
-    uploadBytes(spaceRef, image.file).then((snapshot) => {
+    uploadBytes(spaceRef, image.file).then((snapshot:any) => {
       // console.log(snapshot.ref._location.path);
       let downRef = ref(storage, snapshot.ref._location.path);
       getDownloadURL(downRef).then(async (url) => {
@@ -91,9 +97,11 @@ export default function AddNewsModal({ open, handleClose }: TAddNewsModal) {
           title,
           subTitle,
           description,
+          username,
           image: url,
-        }).then(() => window.location.reload())
-		  .catch((e) => alert(e));
+        })
+          .then(() => window.location.reload())
+          .catch((e) => alert(e));
       });
     });
     // Add a new document in collection "news"
@@ -177,7 +185,23 @@ export default function AddNewsModal({ open, handleClose }: TAddNewsModal) {
         {isProfile ? (
           <>
             <InputLabel className="title">Username</InputLabel>
-            <TextField name="subtitle" placeholder="Enter username here" />
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={users}
+              sx={{ width: "100%" }}
+              onChange={(event, newValue: any) => {
+                setUsername(newValue?.label);
+                // console.log(newValue?.label)
+              }}
+              renderInput={(params) => (
+                <TextField
+                  name="subtitle"
+                  placeholder="Enter username here"
+                  {...params}
+                />
+              )}
+            />
           </>
         ) : (
           <Box

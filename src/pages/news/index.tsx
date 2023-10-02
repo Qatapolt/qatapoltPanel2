@@ -7,6 +7,7 @@ import AddNewsModal from "../../components/modals/AddNewsModal";
 import { useEffect, useState } from "react";
 import { db } from "../../database/firebaseConfig";
 import { collection, getDocs,  } from "firebase/firestore/lite"; 
+import Loader from "react-js-loader";
 
 // interface newsProps {
 // 	title: string;
@@ -18,7 +19,22 @@ import { collection, getDocs,  } from "firebase/firestore/lite";
 const News = () => {
 	const [open, setOpen] = useState(false);
 	const [newsList, setNewsList] = useState<any>([])
-	
+	const [loader, setLoader] = useState(false);
+	const [users, setUsers] = useState<any>([])
+	async function getUsers(db: any) {
+		const usersCol = collection(db, "users");
+		const usersSnapshot = await getDocs(usersCol);
+		const usersList = usersSnapshot.docs.map((doc) => {
+			let data=doc.data();
+			return {
+				label:data?.username,
+				id:data?.uid
+			};
+		});
+		console.log("users", usersList);
+		setUsers(usersList);
+		// setLoader(false)
+	  }
 	async function getNews(db:any) {
 		const newsCol = collection(db, 'news');
 		const newsSnapshot = await getDocs(newsCol);
@@ -30,8 +46,11 @@ const News = () => {
 		});
 		console.log('news',newsList)
 		setNewsList(newsList)
+		setLoader(false)
 	}
 	useEffect(() => {
+		setLoader(true)
+		getUsers(db)
 		getNews(db)
 	  }, [])
 	const handleClose = () => {
@@ -47,12 +66,23 @@ const News = () => {
 					Add News
 				</Button>
 			</PageHeader>
+			{loader ? (
+        <Loader
+          type="spinner-circle"
+          bgColor={"#1928"}
+          // title={"spinner-circle"}
+          // color={"#9182"}
+          size={100}
+        />
+      ) : (
+        <></>
+      )}
 			<Grid container spacing={3}>
 				{newsList.map(({ title, description,image,id }:any, index:any) => (
 					<NewsCard key={index} title={title} image={image} id={id} description={description} />
 				))}
 			</Grid>
-			<AddNewsModal open={open} handleClose={handleClose} />
+			<AddNewsModal open={open} users={users} handleClose={handleClose} />
 		</div>
 	);
 };

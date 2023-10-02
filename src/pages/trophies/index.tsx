@@ -21,6 +21,7 @@ import {
   styled,
 } from "@mui/material";
 import { db, collection, getDocs } from "../../database/firebaseConfig";
+import Loader from "react-js-loader";
 
 // const CustomSwitch = styled((props: SwitchProps) => (
 // 	<Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -174,10 +175,10 @@ const columnsTrophies = [
   },
   {
     Header: "Actions",
-    id: "custom",
-    accessor: "followers",
+    // id: "custom",
+    accessor: "trophy",
     Cell: (props: any) => {
-      return props.value % 2 === 1 ? (
+      return props.value !== "verified"? (
         <div className="flexTrofies">
           {/* <img src={toogleIconOff} alt="off" /> */}
           {/* <Switch defaultChecked color="primary" size="medium" /> */}
@@ -208,14 +209,16 @@ const columnsTrophies = [
 const Trophies = () => {
   const [users, setUsers] = useState<any>([]);
   const [usersFilter, setUsersFilter] = useState<any>([]);
-
+  const [loader, setLoader] = useState(false);
   async function getUsers(db: any) {
     const usersCol = collection(db, "users");
     const usersSnapshot = await getDocs(usersCol);
     const usersList = usersSnapshot.docs.map((doc) => doc.data());
     console.log("users", usersList);
-    setUsers(usersList);
-    setUsersFilter(usersList);
+	let data = usersList.filter((u:any)=>u?.trophy)
+    setUsers(data);
+    setUsersFilter(data);
+	setLoader(false)
   }
   const onSearch = (e: any) => {
     setUsersFilter(
@@ -229,13 +232,25 @@ const Trophies = () => {
     console.log(usersFilter.length);
   };
   useEffect(() => {
+	setLoader(true)
     getUsers(db);
   }, []);
   return (
     <div>
       <PageHeader title="Trohpies">
-        <SearchInput onSearch={onSearch} />
-      </PageHeader>
+		  <SearchInput onSearch={onSearch} />
+		  </PageHeader>
+	  {loader ? (
+        <Loader
+          type="spinner-circle"
+          bgColor={"#1928"}
+          // title={"spinner-circle"}
+          // color={"#9182"}
+          size={100}
+        />
+      ) : (
+        <></>
+      )}
       <ReactTable data={usersFilter} columns={columnsTrophies} />
     </div>
   );

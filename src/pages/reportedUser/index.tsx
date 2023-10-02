@@ -13,8 +13,11 @@ import {
 } from "@mui/material";
 import { db } from "../../database/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore/lite";
+import Loader from "react-js-loader";
 
 const ReportedUser = () => {
+  const [loader, setLoader] = useState(false);
+
   const [day, setDay] = useState("");
   const [reportsList, setReportsList] = useState<any>([]);
   const [reportsListNew, setReportsListNew] = useState<any>([]);
@@ -46,6 +49,7 @@ const ReportedUser = () => {
   }
 
   useEffect(() => {
+    setLoader(true);
     getReports(db);
     getUsers(db);
   }, []);
@@ -58,12 +62,13 @@ const ReportedUser = () => {
         let ru = users.find((u: any) => r?.reportedUserId === u.id);
         data.push({ ...r, reportedOn: ro, reportedUser: ru });
       });
-	//   console.log("data",data)
-	console.log(JSON.stringify(data[0].date.nanoseconds))
+      //   console.log("data",data)
+    //   console.log(JSON.stringify(data[0].date.nanoseconds));
       setReportsListNew(data);
+      setLoader(false);
     }
   }, [users]);
-  
+
   useEffect(() => {}, []);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -110,9 +115,20 @@ const ReportedUser = () => {
           </FormControl>
         </Box>
       </PageHeader>
+      {loader ? (
+        <Loader
+          type="spinner-circle"
+          bgColor={"#1928"}
+          // title={"spinner-circle"}
+          // color={"#9182"}
+          size={100}
+        />
+      ) : (
+        <></>
+      )}
       <Grid container spacing={3}>
         {reportsListNew.map((item: any, index: any) => (
-          <ReportCard report={item} users={users} key={index} />
+          <ReportCard report={item} key={index} />
         ))}
       </Grid>
     </div>

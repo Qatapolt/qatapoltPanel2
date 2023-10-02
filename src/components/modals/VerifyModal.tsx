@@ -103,12 +103,23 @@ export default function VerifyModal({
     await setDoc(
       doc(db, "TrophyRequest", user.id),
       {
-        ...user,
+        // ...user,
         trophy: "verified",
       },
       { merge: true }
     )
-      .then(() => window.location.reload())
+      .then(async () => {
+        await setDoc(
+          doc(db, "users", user.userId),
+          {
+            // ...user,
+            trophy: "verified",
+          },
+          { merge: true }
+        )
+          .then(() => window.location.reload())
+          .catch((e) => alert(e));
+      })
       .catch((e) => alert(e));
   };
 
@@ -134,7 +145,7 @@ export default function VerifyModal({
       <DialogContent>
         <div className={styles.userProfile}>
           <img
-            src={user?.profilePicture}
+            src={user?.profilePicture? user?.profilePicture:userIcon}
             style={{
               width: 75,
               height: 75,

@@ -7,8 +7,10 @@ import { TitleWithIcon } from "../trophyRequest";
 import { closeIcon, deleteIcon, footballIcon } from "../../assets/icons/indext";
 import {db,collection,getDocs,} from "../../database/firebaseConfig"
 import { setDoc ,doc} from "firebase/firestore/lite";
+import Loader from "react-js-loader";
 
 const BlockedAccount = () => {
+	const [loader, setLoader] = useState(false);
 	const columnsBlockAccount = [
 		{
 			Header: "Name",
@@ -72,6 +74,7 @@ const BlockedAccount = () => {
 		const usersList = usersSnapshot.docs.map(doc => doc.data());
 		console.log('users',usersList)
 		setUsers(usersList)
+		setLoader(false)
 	}
 	const blockUser=async(id:any)=>{
 		await setDoc(doc(db, "users", id), {
@@ -80,11 +83,23 @@ const BlockedAccount = () => {
 		  .catch((e) => alert(e));
 	}
 	useEffect(() => {
+		setLoader(true)
 		getUsers(db)
 	  }, [])
 	return (
 		<>
 			<PageHeader title={"Block Accounts"} />
+			{loader ? (
+        <Loader
+          type="spinner-circle"
+          bgColor={"#1928"}
+          // title={"spinner-circle"}
+          // color={"#9182"}
+          size={100}
+        />
+      ) : (
+        <></>
+      )}
 			<ReactTable data={users} columns={columnsBlockAccount} />
 		</>
 	);

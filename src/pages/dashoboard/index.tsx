@@ -15,6 +15,7 @@ import { LineSliderHeader } from "../../components/header/inext";
 import Map from "../../components/map/Map";
 import { useEffect, useState } from "react";
 import { db, collection, getDocs } from "../../database/firebaseConfig";
+import Loader from "react-js-loader";
 
 const columnsDashboard = [
   {
@@ -47,9 +48,10 @@ const columnsDashboard = [
 const Dashboard = () => {
   const [users, setUsers] = useState<any>([]);
   const [posts, setPosts] = useState<any>([]);
+  const [visitors, setVisitors] = useState<any>([]);
   const [topStates, setTopStates] = useState<any>(analyticCardMock);
   const [ageData, setAgeData] = useState<any>(circularSliderMock);
-
+  const [loader, setLoader] = useState(false);
   async function getUsers(db: any) {
     const usersCol = collection(db, "users");
     const usersSnapshot = await getDocs(usersCol);
@@ -66,6 +68,7 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
+    setLoader(true);
     getPosts(db);
     getUsers(db);
   }, []);
@@ -94,6 +97,27 @@ const Dashboard = () => {
         percentage: Math.round((under60 / totalUser) * 100),
       };
       // console.log(ageData)
+
+      const groupedByCountry = users.reduce((acc: any, u: any) => {
+        const country = u.country;
+        (acc[country] = acc[country] || []).push(u);
+        return acc;
+      }, {});
+
+      const resultArray = Object.values(groupedByCountry);
+      resultArray.map((r: any, index: any) => {
+        visitors[index] = {
+          ...lineSliderMock[index],
+          total: r.length,
+          name: r[0].country,
+          percentage: Math.round((r.length / users.length) * 100),
+        };
+        // console.log("=>",index,r);
+        // if (index === 1) continue;
+      });
+      console.log("visitors",visitors);
+    //   setVisitors(resultArray)
+      setLoader(false);
     }
   }, [users]);
   useEffect(() => {
@@ -105,6 +129,19 @@ const Dashboard = () => {
   return (
     <>
       <Grid container spacing={2}>
+        {loader ? (
+          <div style={{ position: "absolute", top: "10%", left: "50%" }}>
+            <Loader
+              type="spinner-circle"
+              bgColor={"#1928"}
+              // title={"spinner-circle"}
+              // color={"#9182"}
+              size={100}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
         {topStates.map(({ title, subTitle, icon }: any, index: any) => {
           return (
             <AnalyticalCard
@@ -127,9 +164,9 @@ const Dashboard = () => {
         <Grid item xs={12} md={4}>
           <Card>
             <LineSliderHeader title="Users Breakdown" />
-            {lineSliderMock
+            {visitors
               .slice(0, 3)
-              .map(({ total, name, percentage, color }) => (
+              .map(({ total, name, percentage, color }:any) => (
                 <LineSlider
                   total={total}
                   name={name}
@@ -164,9 +201,9 @@ const Dashboard = () => {
               ))}
             </div>
 
-            {lineSliderMock
+            {visitors
               .slice(0, 2)
-              .map(({ total, name, percentage, color }) => (
+              .map(({ total, name, percentage, color }:any) => (
                 <LineSlider
                   total={total}
                   name={name}

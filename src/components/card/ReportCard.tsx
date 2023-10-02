@@ -6,9 +6,8 @@ import { userIcon } from "../../assets/icons/indext";
 interface TReportCard {
 	isEnquiries?: boolean;
 	report:any;
-	users:any;
 }
-const ReportCard = ({ isEnquiries=false,report, users }: TReportCard) => {
+const ReportCard = ({ isEnquiries=false,report }: TReportCard) => {
 	const UserTitle = ({username,email}:any) => {
 		return (
 			<div className="flexStart">
@@ -25,14 +24,14 @@ const ReportCard = ({ isEnquiries=false,report, users }: TReportCard) => {
 	return (
 		<Grid item xs={12} sm={6} md={3}>
 			<Card>
-				<UserTitle username={report?.reportedUser?.username} email={report?.reportedUser?.email}/>
+				<UserTitle username={isEnquiries ? report?.name:report?.reportedUser?.username} email={isEnquiries ?report?.email:report?.reportedUser?.email}/>
 				<Box component={"div"}>
 					<div className="category common">
 						<Typography className="reportTitle">
 							{isEnquiries ? `Username` : `Category`}
 						</Typography>
 						{isEnquiries ? (
-							<Typography className="subTitle">{'ru.user'}</Typography>
+							<Typography className="subTitle">{report?.username}</Typography>
 						) : (
 							<Button
 								variant="contained"
@@ -50,14 +49,14 @@ const ReportCard = ({ isEnquiries=false,report, users }: TReportCard) => {
 							{isEnquiries ? `Message` : `Reason`}
 						</Typography>
 						<Typography className="subTitle">
-						{report.reason}
+						{isEnquiries ?report?.message:report.reason}
 						</Typography>
 					</div>
 
 					<div className="date common">
 						<Typography className="reportTitle">Date</Typography>
-						<Typography className="subTitle">{moment(report.date.seconds).utc().format("DD MMM yy")}</Typography>
-						<Typography className="subTitle">{moment(report.date).toString()}</Typography>
+						<Typography className="subTitle">{moment(report?.date?.seconds).utc().format("DD MMM yy")}</Typography>
+						{/* <Typography className="subTitle">{moment(report?.date).toString()}</Typography> */}
 					</div>
 					{!isEnquiries && (
 						<div className="reportedOn common">
