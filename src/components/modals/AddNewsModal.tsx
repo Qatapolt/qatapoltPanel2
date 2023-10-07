@@ -23,6 +23,7 @@ import {
   setDoc,
 } from "firebase/firestore/lite";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import moment from "moment";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -74,7 +75,7 @@ export default function AddNewsModal({
   handleClose,
 }: TAddNewsModal) {
   const [isProfile, setIsProfile] = React.useState(false);
-  const [username, setUsername] = React.useState("");
+  const [user, setUser] = React.useState<any>("");
   const [title, setTitle] = React.useState("");
   const [subTitle, setSubTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -97,8 +98,9 @@ export default function AddNewsModal({
           title,
           subTitle,
           description,
-          username,
+          user:user?.id?{id:user?.id,username:user?.label}:"",
           image: url,
+		  createdAt:moment().toString()
         })
           .then(() => window.location.reload())
           .catch((e) => alert(e));
@@ -191,8 +193,8 @@ export default function AddNewsModal({
               options={users}
               sx={{ width: "100%" }}
               onChange={(event, newValue: any) => {
-                setUsername(newValue?.label);
-                // console.log(newValue?.label)
+                setUser(newValue);
+                // console.log(newValue)
               }}
               renderInput={(params) => (
                 <TextField

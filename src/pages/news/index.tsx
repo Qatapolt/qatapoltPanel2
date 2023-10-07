@@ -27,8 +27,8 @@ const News = () => {
 		const usersList = usersSnapshot.docs.map((doc) => {
 			let data=doc.data();
 			return {
-				label:data?.username,
-				id:data?.uid
+				label:data?.username?data?.username:'NON',
+				id:data?.uid?data?.uid:'NON'
 			};
 		});
 		console.log("users", usersList);

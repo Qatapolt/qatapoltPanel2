@@ -37,11 +37,11 @@ const ReactTable = ({ data, columns, title, name }: TReactTable) => {
 		previousPage,
 		setPageSize,
 		state: { pageIndex, pageSize },
-	} = useTable(
+	}:any = useTable(
 		{
 			columns,
 			data,
-			initialState: { pageSize: 10 },
+			initialState: {  },
 		},
 		usePagination
 	);

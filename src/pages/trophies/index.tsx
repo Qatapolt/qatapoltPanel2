@@ -22,6 +22,8 @@ import {
 } from "@mui/material";
 import { db, collection, getDocs } from "../../database/firebaseConfig";
 import Loader from "react-js-loader";
+import { async } from "@firebase/util";
+import { doc, setDoc } from "firebase/firestore/lite";
 
 // const CustomSwitch = styled((props: SwitchProps) => (
 // 	<Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -138,75 +140,103 @@ import Loader from "react-js-loader";
 // 		borderRadius: 20 / 2,
 // 	},
 // }));
-const columnsTrophies = [
-  {
-    Header: "Name",
-    accessor: "name",
-    Cell: (props: any) => {
-      return <TitleWithIcon title={props.value} />;
-    },
-  },
-  {
-    Header: "Username",
-    accessor: "username",
-    Cell: (props: any) => (props.value ? props.value : "NON"),
-  },
-  {
-    Header: "Email",
-    accessor: "email",
-    Cell: (props: any) => (props.value ? props.value : "NON"),
-  },
-  {
-    Header: "Sport",
-    accessor: "selectSport",
-    Cell: (props: any) => {
-      return (
-        <TitleWithIcon
-          title={props.value ? props.value : "NON"}
-          icon={footballIcon}
-        />
-      );
-    },
-  },
-  {
-    Header: "Phone Number",
-    accessor: "phoneNumber",
-    Cell: (props: any) => (props.value ? props.value : "NON"),
-  },
-  {
-    Header: "Actions",
-    // id: "custom",
-    accessor: "trophy",
-    Cell: (props: any) => {
-      return props.value !== "verified"? (
-        <div className="flexTrofies">
-          {/* <img src={toogleIconOff} alt="off" /> */}
-          {/* <Switch defaultChecked color="primary" size="medium" /> */}
-          <Button
-            variant="contained"
-            sx={{ borderRadius: "20px", marginLeft: "12px" }}
-          >
-            Enable Trophy
-          </Button>
-        </div>
-      ) : (
-        <Box sx={{ textAlign: "center" }}>
-          {/* <img src={toogleIconOn} alt="off" /> */}
-          <Switch defaultChecked color="secondary" size="medium" />
-          {/* <CustomSwitch sx={{ m: 1 }} defaultChecked /> */}
-        </Box>
-      );
-    },
-  },
-  {
-    Header: () => {
-      return null;
-    },
-    id: "menu",
-    Cell: () => <img src={menuIcon} alt="del-icon" className="pointer" />,
-  },
-];
+
 const Trophies = () => {
+	const columnsTrophies = [
+		{
+		  Header: "Name",
+		  accessor: "name",
+		  Cell: (props: any) => {
+			return <TitleWithIcon title={props.value} />;
+		  },
+		},
+		{
+		  Header: "Username",
+		  accessor: "username",
+		  Cell: (props: any) => (props.value ? props.value : "NON"),
+		},
+		{
+		  Header: "Email",
+		  accessor: "email",
+		  Cell: (props: any) => (props.value ? props.value : "NON"),
+		},
+		{
+		  Header: "Sport",
+		  accessor: "selectSport",
+		  Cell: (props: any) => {
+			return (
+			  <TitleWithIcon
+				title={props.value ? props.value : "NON"}
+				icon={footballIcon}
+			  />
+			);
+		  },
+		},
+		{
+		  Header: "Phone Number",
+		  accessor: "phoneNumber",
+		  Cell: (props: any) => (props.value ? props.value : "NON"),
+		},
+		{
+		  Header: "Actions",
+		  // id: "custom",
+		  accessor: "uid",
+		  Cell: (props: any) => {
+			return users.find((u:any)=>u.uid==props.value)?.trophy !== "verified"? (
+			  <div className="flexTrofies">
+				{/* <img src={toogleIconOff} alt="off" /> */}
+				{/* <Switch defaultChecked color="primary" size="medium" /> */}
+				<Button
+				  variant="contained"
+				  sx={{ borderRadius: "20px", marginLeft: "12px" }}
+				  onClick={async()=>{
+				  
+					await setDoc(
+						doc(db, "users", props.value),
+						{
+						  // ...user,
+						  trophy: "verified",
+						},
+						{ merge: true }
+					  )
+						.then(() => window.location.reload())
+					.catch((e) => alert(e));
+				
+			  }}
+				>
+				  Enable Trophy
+				</Button>
+			  </div>
+			) : (
+			  <Box sx={{ textAlign: "center" }}>
+				{/* <img src={toogleIconOn} alt="off" /> */}
+				<Switch defaultChecked color="secondary" size="medium" onClick={async()=>{
+				  
+					  await setDoc(
+						  doc(db, "users", props.value),
+						  {
+							// ...user,
+							trophy: "unverified",
+						  },
+						  { merge: true }
+						)
+						  .then(() => window.location.reload())
+					  .catch((e) => alert(e));
+				  
+				}} />
+				{/* <CustomSwitch sx={{ m: 1 }} defaultChecked /> */}
+			  </Box>
+			);
+		  },
+		},
+		{
+		  Header: () => {
+			return null;
+		  },
+		  id: "menu",
+		  Cell: () => <img src={menuIcon} alt="del-icon" className="pointer" />,
+		},
+	  ];
   const [users, setUsers] = useState<any>([]);
   const [usersFilter, setUsersFilter] = useState<any>([]);
   const [loader, setLoader] = useState(false);

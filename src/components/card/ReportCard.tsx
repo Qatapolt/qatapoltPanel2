@@ -1,6 +1,8 @@
 import { Box, Button, Card, Grid, Typography } from "@mui/material";
+import { doc, setDoc } from "firebase/firestore/lite";
 import moment from "moment";
 import { userIcon } from "../../assets/icons/indext";
+import { db } from "../../database/firebaseConfig";
 
 
 interface TReportCard {
@@ -19,8 +21,19 @@ const ReportCard = ({ isEnquiries=false,report }: TReportCard) => {
 			</div>
 		);
 	};
-	// const ru=users.find((u:any)=>report?.reportedUserId===u.id)
-	// const ro=users.find((u:any)=>report?.reportedOn===u.id)
+	const handleComplete=async()=>{
+		// alert(report.id)
+		await setDoc(
+			doc(db, isEnquiries?"contactUs":"reportUsers", report.id),
+			{
+			  // ...user,
+			  status: "completed",
+			},
+			{ merge: true }
+		  )
+			.then(() => window.location.reload())
+		.catch((e) => alert(e));
+	}
 	return (
 		<Grid item xs={12} sm={6} md={3}>
 			<Card>
@@ -66,9 +79,14 @@ const ReportCard = ({ isEnquiries=false,report }: TReportCard) => {
 							<UserTitle username={report?.reportedOn?.username} email={report?.reportedOn?.email} />
 						</div>
 					)}
-					<Button variant="contained" fullWidth className="common">
+					{report?.status=="completed"?
+					<></>
+				:
+				<Button variant="contained" fullWidth className="common" onClick={handleComplete}>
 						Complete
 					</Button>
+				}
+					
 				</Box>
 			</Card>
 		</Grid>
