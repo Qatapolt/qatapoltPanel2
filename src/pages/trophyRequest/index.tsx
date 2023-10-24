@@ -121,6 +121,7 @@ const TrophyRequests = () => {
     <div>
 		<PageHeader title={"Trophy Requests"} />
       {loader ? (
+		<div style={{ position: "absolute", top: "45%", left: "50%" }}>
         <Loader
           type="spinner-circle"
           bgColor={"#1928"}
@@ -128,6 +129,7 @@ const TrophyRequests = () => {
           // color={"#9182"}
           size={100}
         />
+		</div>
       ) : (
         <></>
       )}

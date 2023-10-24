@@ -11,6 +11,7 @@ import News from "./pages/news";
 import ReportedUser from "./pages/reportedUser";
 import Enquiries from "./pages/enquiries";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const NotFound = () => {
 	return <div>Page Not Found</div>;
@@ -19,9 +20,13 @@ function App() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	console.log("router", location);
-	if (!localStorage.getItem('adminEmail')) {
-		navigate({ pathname: "/login" });
-	}
+	
+	useEffect(() => {
+		if (!localStorage.getItem('adminEmail')) {
+			navigate({ pathname: "/login" });
+		}
+	}, [])
+	
 	return (
 		<>
 			<Routes>

@@ -130,7 +130,7 @@ const Dashboard = () => {
     <>
       <Grid container spacing={2}>
         {loader ? (
-          <div style={{ position: "absolute", top: "10%", left: "50%" }}>
+          <div style={{ position: "absolute", top: "45%", left: "50%",zIndex:100 }}>
             <Loader
               type="spinner-circle"
               bgColor={"#1928"}

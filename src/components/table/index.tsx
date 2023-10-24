@@ -41,7 +41,7 @@ const ReactTable = ({ data, columns, title, name }: TReactTable) => {
 		{
 			columns,
 			data,
-			initialState: {  },
+			initialState: { pageSize: 10 },
 		},
 		usePagination
 	);

@@ -67,6 +67,7 @@ const News = () => {
 				</Button>
 			</PageHeader>
 			{loader ? (
+        <div style={{ position: "absolute", top: "45%", left: "50%" }}>
         <Loader
           type="spinner-circle"
           bgColor={"#1928"}
@@ -74,6 +75,7 @@ const News = () => {
           // color={"#9182"}
           size={100}
         />
+		</div>
       ) : (
         <></>
       )}

@@ -90,6 +90,7 @@ const BlockedAccount = () => {
 		<>
 			<PageHeader title={"Block Accounts"} />
 			{loader ? (
+        <div style={{ position: "absolute", top: "45%", left: "50%" }}>
         <Loader
           type="spinner-circle"
           bgColor={"#1928"}
@@ -97,6 +98,7 @@ const BlockedAccount = () => {
           // color={"#9182"}
           size={100}
         />
+		</div>
       ) : (
         <></>
       )}

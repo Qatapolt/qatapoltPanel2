@@ -271,6 +271,7 @@ const Trophies = () => {
 		  <SearchInput onSearch={onSearch} />
 		  </PageHeader>
 	  {loader ? (
+        <div style={{ position: "absolute", top: "45%", left: "50%" }}>
         <Loader
           type="spinner-circle"
           bgColor={"#1928"}
@@ -278,6 +279,7 @@ const Trophies = () => {
           // color={"#9182"}
           size={100}
         />
+		</div>
       ) : (
         <></>
       )}
