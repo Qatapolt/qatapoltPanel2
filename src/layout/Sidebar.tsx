@@ -29,7 +29,8 @@ export const SidebarFooter = () => {
         className={styles.footerLogout}
         onClick={() => {
           localStorage.clear();
-          navigate({ pathname: "/login" });
+          window.location.assign(window.location.hostname)
+          // navigate({ pathname: "/login" });
           // window.location.reload();
         }}
       >

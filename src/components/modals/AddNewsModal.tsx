@@ -102,7 +102,7 @@ export default function AddNewsModal({
           image: url,
 		  createdAt:moment().toString()
         })
-          .then(() => window.location.reload())
+          .then(() => window.location.assign(window.location.href))
           .catch((e) => alert(e));
       });
     });

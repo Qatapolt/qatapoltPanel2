@@ -31,7 +31,7 @@ const ReportCard = ({ isEnquiries=false,report }: TReportCard) => {
 			},
 			{ merge: true }
 		  )
-			.then(() => window.location.reload())
+			.then(() => window.location.assign(window.location.href))
 		.catch((e) => alert(e));
 	}
 	return (

@@ -96,7 +96,7 @@ const DeletedAccount = () => {
 
     // Set the "capital" field of the city 'DC'
     await deleteDoc(userRef)
-      .then(() => window.location.reload())
+      .then(() => window.location.assign(window.location.href))
       .catch((e) => alert(e));
   };
   useEffect(() => {

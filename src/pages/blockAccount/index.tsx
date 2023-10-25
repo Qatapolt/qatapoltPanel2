@@ -79,7 +79,7 @@ const BlockedAccount = () => {
 	const blockUser=async(id:any)=>{
 		await setDoc(doc(db, "users", id), {
 			...users.find((u:any)=>u.uid===id),status:'blocked',
-		  }, { merge: true }).then(() => window.location.reload())
+		  }, { merge: true }).then(() => window.location.assign(window.location.href))
 		  .catch((e) => alert(e));
 	}
 	useEffect(() => {

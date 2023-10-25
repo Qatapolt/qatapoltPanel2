@@ -199,7 +199,7 @@ const Trophies = () => {
 						},
 						{ merge: true }
 					  )
-						.then(() => window.location.reload())
+						.then(() => window.location.assign(window.location.href))
 					.catch((e) => alert(e));
 				
 			  }}
@@ -220,7 +220,7 @@ const Trophies = () => {
 						  },
 						  { merge: true }
 						)
-						  .then(() => window.location.reload())
+						  .then(() => window.location.assign(window.location.href))
 					  .catch((e) => alert(e));
 				  
 				}} />

@@ -28,7 +28,7 @@ const NewsCard = ({ title, description ,image,id}: TNewsCard) => {
 
     // Set the "capital" field of the city 'DC'
     await deleteDoc(newsRef)
-	.then(()=>window.location.reload())
+	.then(()=>window.location.assign(window.location.href))
 		.catch((e)=>alert(e))
   };
   return (

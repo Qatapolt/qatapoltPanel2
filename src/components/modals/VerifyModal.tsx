@@ -117,7 +117,7 @@ export default function VerifyModal({
           },
           { merge: true }
         )
-          .then(() => window.location.reload())
+          .then(() => window.location.assign(window.location.href))
           .catch((e) => alert(e));
       })
       .catch((e) => alert(e));
@@ -128,7 +128,7 @@ export default function VerifyModal({
 
     // Set the "capital" field of the city 'DC'
     await deleteDoc(userRef)
-      .then(() => window.location.reload())
+      .then(() => window.location.assign(window.location.href))
       .catch((e) => alert(e));
   };
 
